@@ -1,0 +1,76 @@
+﻿@page "/login"
+@inject HttpClient Http
+@inject NavigationManager navigationManager
+@using Blazor.Shared
+
+<h3>Log in</h3>
+
+<EditForm Model="user" OnValidSubmit="LoginUser">
+    <DataAnnotationsValidator />
+
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirm delete</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <input type="hidden" id="bookToDeleteField" bind=@DeleteId />
+                    Are you sure you want to delete book <span id="bookTitleField"></span>?
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick=@DeleteBook>Delete</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Username:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@user.Username" />
+            <ValidationMessage For="@(() => user.Username)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Password:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@user.Password" />
+            <ValidationMessage For="@(() => user.Password)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Log in</button>
+
+</EditForm>
+
+@code {
+    private User user = new User();
+
+    async Task LoginUser()
+    {
+        List<User> users;
+        users = await Http.GetJsonAsync<List<User>>(@"user\all");
+        foreach (User u in users)
+        {
+            if (u.Username == user.Username && u.Password == user.Password)
+            {
+
+                break;
+            }
+        }
+
+
+    }
+}
+
