@@ -22,21 +22,21 @@ namespace Blazor.Server.Controllers
                 {   Username = "AP",
                     FirstName = "Aleksa",
                     LastName = "Pavlovic",
-                    Password = "aleksa"
+                    Password = "Aleksa123."
 
                 },
                 new User
                 {   Username = "KM",
                     FirstName = "Katarina",
                     LastName = "Milic",
-                    Password = "katarina"
+                    Password = "Katarina123."
 
                 },
                 new User
                 {   Username = "VM",
                     FirstName = "Vidan",
                     LastName = "Milojevic",
-                    Password = "vidan"
+                    Password = "Vidan123."
 
                 },
                 new User
@@ -44,7 +44,7 @@ namespace Blazor.Server.Controllers
                     Username = "LM",
                     FirstName = "Lazar",
                     LastName = "Miric",
-                    Password = "lazar"
+                    Password = "Lazar123."
 
                 }
             };

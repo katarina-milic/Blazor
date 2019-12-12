@@ -1,6 +1,6 @@
 ﻿@page "/login"
 @inject HttpClient Http
-@inject NavigationManager navigationManager
+@inject NavigationManager NavigationManager
 @using Blazor.Shared
 
 <h3>Log in</h3>
@@ -24,14 +24,20 @@
             <input type="password" class="form-control" placeholder="Password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$" title="Sifra mora imati minimum 8 karaktera i pri tome bar jedno veliko slovo, specijalan znak i broj" @bind="@user.Password" />
             <ValidationMessage For="@(() => user.Password)" />
         </div>
+        <label>@Error</label>
     </div>
     <a href="/forgotPassword">Forgot password?</a>
-    <button type="submit" class="btn btn-primary">Log in</button>
+    <button type="submit" class="btn btn-primary" @onclick="LoginUser">Log in</button>
 
 </EditForm>
 
 @code {
     private User user = new User();
+    public string Error { get; set; }
+    private void NavigateToCounterComponent()
+    {
+        NavigationManager.NavigateTo("/users");
+    }
 
     async Task LoginUser()
     {
@@ -41,8 +47,11 @@
         {
             if (u.Username == user.Username && u.Password == user.Password)
             {
-
-                break;
+                NavigateToCounterComponent();
+            }
+            else
+            {
+                Error = "Korisnik nije ulogovan.";
             }
         }
 
