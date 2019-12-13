@@ -9,11 +9,11 @@
     <div class="col-md-12">
         <div class="form-group">
             <label for="Naziv" class="custom-control-label">Naziv</label>
-            <input for="Naziv" bind="@flm.Naziv" class="form-control" placeholder="Unesite ime filma" />
+            <input for="Naziv" @bind-value="@flm.Naziv" class="form-control" placeholder="Unesite ime filma" />
         </div>
         <div class="form-group">
             <label for="Zanr" class="custom-control-label">Zanr</label>
-            <select for="Zanr" bind="@flm.Zanr" class="form-control" placeholder="Unesite zanr filma">
+            <select for="Zanr" @bind="@flm.Zanr" class="form-control" placeholder="Unesite zanr filma">
                 <option disabled hidden selected value=""> Odaberite zanr filma</option>
                 <option value="komedija">KOMEDIJA</option>
                 <option value="romantika">ROMANTIKA</option>
