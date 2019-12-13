@@ -1,7 +1,18 @@
 ﻿@page "/"
+@inject NavigationManager NavigationManager
 
-<h1>Hello, world!</h1>
+<h1 class="shadow">Flamingo Cineplexx </h1>
+<p> </p>
+<button type="button" class="align-self-sm-auto btn-lg btn-group-toggle btn-outline-primary"  @onclick="Login">Ulogujte se</button>
+@code {
 
-Welcome to your new app.
+    private void NavigateToCounterComponent()
+    {
+        NavigationManager.NavigateTo("/login");
+    }
+    async Task Login()
+    {
+        NavigateToCounterComponent();
+    }
+}
 
-<SurveyPrompt Title="How is Blazor working for you?" />
