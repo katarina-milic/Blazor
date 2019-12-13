@@ -13,7 +13,5 @@ namespace Blazor.Data
 
         public DbSet<Question> Questions { get; set; }
 
-        public DbSet<Film> Filmovi {get; set;}
-        public DbSet<Projekcija> Projekcije {get; set;}
     }
 }

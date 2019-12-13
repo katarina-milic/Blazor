@@ -1,0 +1,42 @@
+﻿@page "/fetchfilms"
+@using Blazor.Shared
+@inject HttpClient Http
+
+<h1>Svi Filmovi</h1>
+
+@if (filmovi== null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Naziv</th>
+                <th>Zanr</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var film in filmovi )
+            {
+                <tr>
+                    <td>@film.Id</td>
+                    <td>@film.Naziv</td>
+                    <td>@film.Zanr</td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    Film[] filmovi;
+    protected override async Task OnInitializedAsync()
+    {
+        filmovi = await Http.GetJsonAsync<Film[]>(@"api/Film/Index");
+    }
+}

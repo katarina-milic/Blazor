@@ -1,0 +1,49 @@
+﻿@page "/addfilm"
+@using Blazor.Shared
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h1>Unesi film</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label for="Naziv" class="custom-control-label">Naziv</label>
+            <input for="Naziv" bind="@flm.Naziv" class="form-control" placeholder="Unesite ime filma" />
+        </div>
+        <div class="form-group">
+            <label for="Zanr" class="custom-control-label">Zanr</label>
+            <select for="Zanr" bind="@flm.Zanr" class="form-control" placeholder="Unesite zanr filma">
+                <option disabled hidden selected value=""> Odaberite zanr filma</option>
+                <option value="komedija">KOMEDIJA</option>
+                <option value="romantika">ROMANTIKA</option>
+                <option value="horor">HOROR</option>
+                <option value="tragedija">TRAGEDIJA</option>
+                <option value="akcija">AKCIJA</option>
+                <option value="triler">TRILER</option>
+
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit" class=" btn btn-outline-primary" @onclick="CreateFilm"> Sacuvaj </button>
+        </div>
+        <p class="alert-success">@poruka</p>
+        
+    </div>
+</div>
+
+@code {
+    Film flm = new Film();
+    string poruka;
+
+    protected async Task CreateFilm()
+    {
+        poruka = "Sacuvano!";
+        await Http.SendJsonAsync(HttpMethod.Post, "/api/Film/Create",flm );
+        RedirectToIndex();
+    }
+    void RedirectToIndex()
+    {
+        NavigationManager.NavigateTo("/fetchfilms");
+    }
+}
