@@ -10,27 +10,29 @@
 }
 else
 {
-    <table class="table">
+
+    <table  id="grad" class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Naziv</th>
                 <th>Zanr</th>
-                
+
             </tr>
         </thead>
         <tbody>
-            @foreach (var film in filmovi )
+            @foreach (var film in filmovi)
             {
                 <tr>
                     <td>@film.Id</td>
                     <td>@film.Naziv</td>
                     <td>@film.Zanr</td>
-                    
+
                 </tr>
             }
         </tbody>
     </table>
+
 }
 
 @code {

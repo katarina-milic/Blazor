@@ -2,6 +2,9 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+   
+   
+    /* For browsers that do not support gradients */
 }
 
 app {
@@ -11,22 +14,36 @@ app {
 }
 
 .top-row {
-    height: 3.5rem;
+    height: 50px;
     display: flex;
     align-items: center;
 }
 
 .main {
     flex: 1;
+    background: url(https://cdn.suwalls.com/wallpapers/digital-art/popcorn-18999-1920x1200.jpg);
+    background-size: contain;
+    
 }
 
     .main .top-row {
-        background-color: #e6e6e6;
-        border-bottom: 1px solid #d6d5d5;
+        background-color: rgb(21, 0, 0);
     }
-
+#naslov {
+    font-size: 85px;
+    font-family: 'Edwardian Script ITC';
+    color: burlywood;
+    text-shadow: 1px 0.3 black;
+  
+    
+}
+    
+}
+.table {
+    outline: thick ridge rgb(94, 5, 5);
+}
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-image: linear-gradient(180deg,rgb(21, 0, 0),rgb(94, 5, 5));
 }
 
     .sidebar .top-row {
@@ -132,5 +149,27 @@ app {
         /* Never collapse the sidebar for wide screens */
         display: block;
     }
-   
+    #grad {
+        background-color: rgb(94, 5, 5);
+        -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+        -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+        animation-name: example;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+        animation-direction:alternate;
+        /* For browsers that do not support gradients */
+        /*background-image: linear-gradient(to right, rgb(94, 5, 5), rgb(21, 0, 0)); /* Standard syntax (must be last) */
+        text-align: center;
+        color: burlywood;
+        text-shadow: 1px 0.3 black;
+    }
+    @keyframes example {
+        from {
+            background-color: rgb(94, 5, 5);
+        }
+
+        to {
+            background-color: rgb(21, 0, 0);
+        }
+    }
 }
