@@ -1,0 +1,57 @@
+﻿@using Blazor.Shared
+@page "/editfilm/{Id}"
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+
+<h3 id="naslov2">Izmeni film</h3>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label id="tekst" for="Naziv" class="col-form-label-lg">Naziv</label>
+            <input for="Naziv" @bind-value="@flm.Naziv" class="form-control" placeholder="Unesite ime filma" />
+        </div>
+        <div class="form-group">
+            <label id="tekst" for="Zanr" class="col-form-label-lg">Zanr</label>
+            <select for="Zanr" @bind="@flm.Zanr" class="form-control" placeholder="Unesite zanr filma">
+                <option disabled hidden selected value=""> Odaberite zanr filma</option>
+                <option value="KOMEDIJA">KOMEDIJA</option>
+                <option value="ROMANTIKA">ROMANTIKA</option>
+                <option value="HOROR">HOROR</option>
+                <option value="TRAGEDIJA">TRAGEDIJA</option>
+                <option value="AKCIJA">AKCIJA</option>
+                <option value="TRILER">TRILER</option>
+
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit" class=" btn btnSacuvaj" @onclick="UpdateFilm"> Sacuvaj </button>
+        </div>
+        <p class="alert-success">@poruka</p>
+
+    </div>
+</div>
+
+@code {
+    string poruka;
+
+    [Parameter]
+    public string Id { get; set; }
+
+    Film flm = new Film();
+    protected override async Task OnInitializedAsync()
+    {
+        flm = await Http.GetJsonAsync<Film>($"api/Film/Details/{Convert.ToInt32(Id)}");
+    }
+    protected async Task UpdateFilm ()
+    {
+        await Http.SendJsonAsync(HttpMethod.Put, "api/Film/Edit", flm);
+        RedirectToIndex();
+    }
+     void RedirectToIndex()
+    {
+        NavigationManager.NavigateTo("/fetchfilms");
+    }
+
+}

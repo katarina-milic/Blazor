@@ -1,22 +1,24 @@
 ﻿@page "/fetchfilms"
 @using Blazor.Shared
 @inject HttpClient Http
+@inject NavigationManager NavigationManager
 
 <h1 id="naslov2">Svi Filmovi</h1>
 
-@if (filmovi== null)
+@if (filmovi == null)
 {
     <p id="tekst"><em>Loading...</em></p>
 }
 else
 {
 
-    <table  id="grad" class="table">
+    <table id="grad" class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Naziv</th>
                 <th>Zanr</th>
+                <th>Izmeni</th>
+
 
             </tr>
         </thead>
@@ -24,9 +26,11 @@ else
             @foreach (var film in filmovi)
             {
                 <tr>
-                    <td>@film.Id</td>
+
                     <td>@film.Naziv</td>
                     <td>@film.Zanr</td>
+                    <td> <a href="/editfilm/@film.Id" style=" color:rgb(76, 255, 0)">Izmeni</a></td>
+                    <td><button class="btnDelete" @onclick="(async () => await DeleteFilm(film.Id))">Obrisi</button></td>
 
                 </tr>
             }
@@ -37,8 +41,19 @@ else
 
 @code {
     Film[] filmovi;
+    Film film = new Film();
     protected override async Task OnInitializedAsync()
     {
         filmovi = await Http.GetJsonAsync<Film[]>(@"api/Film/Index");
     }
+    protected async Task DeleteFilm(int id)
+    {
+        await Http.DeleteAsync($"api/Film/Delete/{id}");
+        RedirectToIndex();
+    }
+    void RedirectToIndex()
+    {
+        NavigationManager.NavigateTo("/deletedpage");
+    }
 }
+

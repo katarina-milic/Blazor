@@ -45,5 +45,6 @@ namespace Blazor.Server.Controllers
         {
             objfilm.DeleteFilm(id);
         }
+     
     }
 }

@@ -37,5 +37,6 @@ namespace Blazor.Server.Data
             db.Filmovi.Remove(film);
             db.SaveChanges();
         }
+      
     }
 }

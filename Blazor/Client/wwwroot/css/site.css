@@ -240,6 +240,18 @@ app {
     box-shadow: 4px rgb(94, 5, 5);
     transform: translateY(4px);
 }
+.btnDelete {
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    background-color: rgb(21, 0, 0);
+    color: rgb(76, 255, 0);
+    border: 2px solid rgb(76, 255, 0)
+}
+.btnDelete:hover {
+    background-color: rgb(76, 255, 0);
+    color: rgb(21, 0, 0);
+    box-shadow: rgb(76, 255, 0)
+}
 .form-control {
     background-color: #f8d09c;
     color: #495057;
