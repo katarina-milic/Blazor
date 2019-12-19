@@ -21,9 +21,11 @@ app {
 
 .main {
     flex: 1;
-    background: url(https://cdn.suwalls.com/wallpapers/digital-art/popcorn-18999-1920x1200.jpg);
+    background: url(https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80);
     background-size: contain;
-    
+    overflow: hidden;
+    height: 100vh;
+   
 }
 
     .main .top-row {
@@ -31,13 +33,25 @@ app {
     }
 #naslov {
     font-size: 85px;
-    font-family: 'Edwardian Script ITC';
     color: burlywood;
-    text-shadow: 1px 0.3 black;
-  
-    
+    text-shadow: 1px 0.3px black;
+    height: inherit;
+    background: inherit;
+    font: 900 20vmin/50vh 'Edwardian Script ITC', sans-serif;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+#naslov2 {
+    font-size: 40px;
+    color: burlywood;
+}
+#tekst {
     
+    color:burlywood;
+}
+
 }
 .table {
     outline: thick ridge rgb(94, 5, 5);
@@ -149,6 +163,7 @@ app {
         /* Never collapse the sidebar for wide screens */
         display: block;
     }
+
     #grad {
         background-color: rgb(94, 5, 5);
         -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
@@ -161,7 +176,7 @@ app {
         /*background-image: linear-gradient(to right, rgb(94, 5, 5), rgb(21, 0, 0)); /* Standard syntax (must be last) */
         text-align: center;
         color: burlywood;
-        text-shadow: 1px 0.3 black;
+        
     }
     @keyframes example {
         from {
@@ -173,3 +188,66 @@ app {
         }
     }
 }
+.btnLogin {
+    background-color: rgb(94, 5, 5);
+    -webkit-animation-name: button; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+    animation-name: button;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    /* For browsers that do not support gradients */
+    /*background-image: linear-gradient(to right, rgb(94, 5, 5), rgb(21, 0, 0)); /* Standard syntax (must be last) */
+    text-align: center;
+    color: burlywood;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.9;
+    margin-left: 80%;
+    border-radius: 8px;
+}
+
+@keyframes button {
+    from {
+        background-color: rgb(94, 5, 5);
+    }
+
+    to {
+        background-color: rgb(21, 0, 0);
+    }
+}
+.btnLogin:hover {
+    opacity: 1;
+    box-shadow: 3px 5px rgb(94, 5, 5);
+}
+
+.btnSacuvaj {
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    background-color: burlywood;
+    color:rgb(94, 5, 5);
+    border: 2px solid rgb(94, 5, 5)
+}
+
+    .btnSacuvaj:hover {
+        background-color: rgb(94, 5, 5); 
+        color: burlywood;
+        box-shadow:7px rgb(94, 5, 5)
+    }
+.btnSacuvaj:active {
+
+    box-shadow: 4px rgb(94, 5, 5);
+    transform: translateY(4px);
+}
+.form-control {
+    background-color: #f8d09c;
+    color: #495057;
+    border: 1px solid rgb(21, 0, 0);
+}
+    .form-control:focus {
+        border: solid rgb(94, 5, 5);
+        box-shadow: 0 0 0 0.2rem rgb(94, 5, 5);
+        color: rgb(94, 5, 5)
+    }
+

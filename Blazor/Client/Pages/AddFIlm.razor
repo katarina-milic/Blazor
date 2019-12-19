@@ -3,19 +3,19 @@
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
-<h1>Unesi film</h1>
+<h1 id="naslov2">Unesi film</h1>
 
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-            <label for="Naziv" class="custom-control-label">Naziv</label>
+            <label id="tekst" for="Naziv" class="col-form-label-lg">Naziv</label>
             <input for="Naziv" @bind-value="@flm.Naziv" class="form-control" placeholder="Unesite ime filma" />
         </div>
         <div class="form-group">
-            <label for="Zanr" class="custom-control-label">Zanr</label>
+            <label id="tekst" for="Zanr" class="col-form-label-lg">Zanr</label>
             <select for="Zanr" @bind="@flm.Zanr" class="form-control" placeholder="Unesite zanr filma">
                 <option disabled hidden selected value=""> Odaberite zanr filma</option>
-                <option value="KOMEDIJA">KOMEDIJA</option>
+                <option  value="KOMEDIJA">KOMEDIJA</option>
                 <option value="ROMANTIKA">ROMANTIKA</option>
                 <option value="HOROR">HOROR</option>
                 <option value="TRAGEDIJA">TRAGEDIJA</option>
@@ -25,7 +25,7 @@
             </select>
         </div>
         <div class="form-group">
-            <button type="submit" class=" btn btn-outline-primary" @onclick="CreateFilm"> Sacuvaj </button>
+            <button type="submit"  class=" btn btnSacuvaj" @onclick="CreateFilm"> Sacuvaj </button>
         </div>
         <p class="alert-success">@poruka</p>
         

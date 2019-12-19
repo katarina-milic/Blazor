@@ -1,10 +1,10 @@
 ﻿@page "/"
 @inject NavigationManager NavigationManager
+<button type="button" class="btn-lg btnLogin" @onclick="Login">Ulogujte se</button>
+<div id="divnaslov">
+    <h1 id="naslov">Flamingo Cineplex </h1>
+</div>
 
-    <div>
-        <h1 id="naslov">Flamingo Cineplexx </h1> 
-        <button type="button" class="align-self-sm-auto btn-lg btn-group-toggle btn-outline-primary" @onclick="Login">Ulogujte se</button>
-    </div>
 @code {
 
     private void NavigateToCounterComponent()

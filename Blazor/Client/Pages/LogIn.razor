@@ -3,7 +3,7 @@
 @inject NavigationManager NavigationManager
 @using Blazor.Shared
 
-<h3>Log in</h3>
+<h3 id="naslov2">Ulogujte se</h3>
 
 <EditForm Model="user" OnValidSubmit="LoginUser">
     <DataAnnotationsValidator />
@@ -11,23 +11,23 @@
     <ValidationSummary/>
 
     <div class="form-group">
-        <label>Username:</label>
+        <label id="tekst">Username:</label>
         <div>
-            <InputText class="form-control" @bind-Value="@user.Username" />
+            <InputText placeholder="Username" class="form-control" @bind-Value="@user.Username" />
             <ValidationMessage For="@(() => user.Username)" />
         </div>
     </div>
 
     <div class="form-group">
-        <label>Password:</label>
+        <label id="tekst">Password:</label>
         <div>
             <input type="password" class="form-control" placeholder="Password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$" title="Sifra mora imati minimum 8 karaktera i pri tome bar jedno veliko slovo, specijalan znak i broj" @bind="@user.Password" />
             <ValidationMessage For="@(() => user.Password)" />
         </div>
         <label>@Error</label>
     </div>
-    <a href="/forgotPassword">Forgot password?</a>
-    <button type="submit" class="btn btn-primary" @onclick="LoginUser">Log in</button>
+    <a href="/forgotPassword" id="tekst">Forgot password?</a>
+    <button type="submit" class="btn btnSacuvaj" @onclick="LoginUser">Log in</button>
 
 </EditForm>
 

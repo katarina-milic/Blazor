@@ -27,8 +27,9 @@ namespace Blazor.Shared
         [Required]
         public string Naziv { get; set; }
         public string Zanr { get; set; }
-     
-       
+
+
+
     }
     
 }
