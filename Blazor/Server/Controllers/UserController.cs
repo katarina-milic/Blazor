@@ -2,59 +2,51 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazor.Server.Data;
 using Blazor.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blazor.Server.Controllers
 {
-    [Route("[controller]")]
-    [ApiController]
-    public class UserController : ControllerBase
+   
+    public class UserController : Controller
     {
+        FilmDataAccessLayer objkor = new FilmDataAccessLayer();
         [HttpGet]
-        [Route("all")]
+        [Route("api/User/Index")]
         public IEnumerable<User> GetUsers()
         {
-            var output = new List<User>
-            {
-                new User
-                {   Username = "AP",
-                    FirstName = "Aleksa",
-                    LastName = "Pavlovic",
-                    Password = "Aleksa123."
-
-                },
-                new User
-                {   Username = "KM",
-                    FirstName = "Katarina",
-                    LastName = "Milic",
-                    Password = "Katarina123."
-
-                },
-                new User
-                {   Username = "VM",
-                    FirstName = "Vidan",
-                    LastName = "Milojevic",
-                    Password = "Vidan123."
-
-                },
-                new User
-                {
-                    Username = "LM",
-                    FirstName = "Lazar",
-                    LastName = "Miric",
-                    Password = "Lazar123."
-
-                }
-            };
-            return output;
+            return objkor.GetAllUsers();
         }
         [HttpPost]
-        public void Post (User user)
+        [Route("api/User/Create")]
+        public void Create([FromBody] User user)
         {
-                
+            if (ModelState.IsValid)
+            {
+                objkor.AddUser(user);
+            }
+        }
+        [HttpGet]
+        [Route("api/User/Details/{id}")]
+        public User Details(int id)
+        {
+            return objkor.GetUser(id);
+        }
+        [HttpPut]
+        [Route("api/User/Edit")]
+        public void Edit([FromBody] User user)
+        {
+            objkor.UpdateUser(user);
+        }
+        [HttpDelete]
+        [Route("api/User/Delete/{id}")]
+        public void Delete(int id)
+        {
+            objkor.DeleteUser(id);
         }
 
+       
     }
 }

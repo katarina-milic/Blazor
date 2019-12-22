@@ -10,6 +10,7 @@ namespace Blazor.Server.Data
     public class FilmContext : DbContext
     {
         public virtual DbSet<Film> Filmovi { get; set; }
+        public virtual DbSet<User> Korisnici { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             if(!options.IsConfigured)

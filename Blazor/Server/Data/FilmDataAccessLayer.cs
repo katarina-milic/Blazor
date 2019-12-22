@@ -37,6 +37,35 @@ namespace Blazor.Server.Data
             db.Filmovi.Remove(film);
             db.SaveChanges();
         }
-      
+
+
+
+        public IEnumerable<User> GetAllUsers()
+        {
+            return db.Korisnici.ToList();
+
+        }
+        public User GetUser(int id)
+        {
+            var user = db.Korisnici.Find(id);
+            return user;
+        }
+        public void AddUser(User user)
+        {
+            db.Korisnici.Add(user);
+            db.SaveChanges();
+        }
+        public void UpdateUser(User user)
+        {
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+
+        }
+        public void DeleteUser(int id)
+        {
+            var user = db.Korisnici.Find(id);
+            db.Korisnici.Remove(user);
+            db.SaveChanges();
+        }
     }
 }

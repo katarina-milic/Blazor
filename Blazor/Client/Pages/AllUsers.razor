@@ -1,0 +1,60 @@
+﻿@page "/fetchusers"
+@using Blazor.Shared
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h1 id="naslov2">Korisnici</h1>
+
+@if (korisnici == null)
+{
+    <p id="tekst"><em>Loading...</em></p>
+}
+else
+{
+
+    <table id="grad" class="table">
+        <thead>
+            <tr>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>E-mail</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in korisnici)
+            {
+                <tr>
+
+                    <td>@user.FirstName</td>
+                    <td>@user.LastName</td>
+                    <td>@user.Email</td>
+                    <td> <a href="/edituser/@user.Id" style=" color:rgb(76, 255, 0)">Izmeni</a></td>
+                    <td><button class="btnDelete" @onclick="(async () => await DeleteUser(user.Id))">Obrisi</button></td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+@code {
+    User[] korisnici;
+    User user = new User();
+    protected override async Task OnInitializedAsync()
+    {
+        korisnici = await Http.GetJsonAsync<User[]>("api/User/Index");
+    }
+    protected async Task DeleteUser(int id)
+    {
+        await Http.DeleteAsync($"api/User/Delete/{id}");
+        RedirectToIndex();
+        
+    }
+    void RedirectToIndex()
+    {
+        NavigationManager.NavigateTo("/deletedpageuser");
+    }
+}

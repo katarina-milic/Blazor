@@ -1,0 +1,21 @@
+﻿@page "/deletedpageuser"
+@using Blazor.Shared
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+
+<h3 id="tekst" style="font-size:30px">Korisnik vise nije u bazi.</h3>
+<button class="btn btnSacuvaj" @onclick="Nazad">Nazad</button>
+
+@code {
+
+    protected async Task Nazad()
+    {
+        RedirectToIndex();
+
+    }
+    void RedirectToIndex()
+    {
+        NavigationManager.NavigateTo("/fetchusers");
+    }
+}

@@ -26,6 +26,7 @@ app {
     overflow: hidden;
     height: 100vh;
    
+   
 }
 
     .main .top-row {
@@ -39,9 +40,16 @@ app {
     background: inherit;
     font: 900 20vmin/50vh 'Edwardian Script ITC', sans-serif;
     text-align: center;
-    display: flex;
+    display:flex;
     align-items: center;
     justify-content: center;
+   
+    margin-top:inherit;
+    width:100%;
+    
+    
+   
+      
 }
 #naslov2 {
     font-size: 40px;
@@ -52,6 +60,20 @@ app {
     color:burlywood;
 }
 
+#flamingo {
+    opacity: 0.5;
+    height: 150px;
+    width: 100px;
+    float: right;
+    flex-shrink: inherit;
+    
+    
+}
+
+#flamingo:hover {
+       
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
 }
 .table {
     outline: thick ridge rgb(94, 5, 5);
@@ -188,7 +210,7 @@ app {
         }
     }
 }
-.btnLogin {
+.btnLogin button {
     background-color: rgb(94, 5, 5);
     -webkit-animation-name: button; /* Safari 4.0 - 8.0 */
     -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
@@ -204,8 +226,10 @@ app {
     align-items: center;
     justify-content: center;
     opacity: 0.9;
-    margin-left: 80%;
+    /*margin-left: 80%;*/
     border-radius: 8px;
+    float: left;
+    position:relative;
 }
 
 @keyframes button {
@@ -262,4 +286,44 @@ app {
         box-shadow: 0 0 0 0.2rem rgb(94, 5, 5);
         color: rgb(94, 5, 5)
     }
+    #registracija {
+        overflow:auto;
+    }
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background-color: burlywood;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(49, 1, 1);
+}
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: rgb(94, 5, 5);
+    }
+    #btnreg {
+        text-align:center;
+       margin-left:30%;
+        width:250px;
+    }
+.alert-info {
+    font-size: 30px;
+    color:rgb(76, 255, 0);
+    font:bold;
+    font-variant-caps:titling-caps;
+    background-color:transparent;
+}
+.alert-danger {
+    font-size:30px;
+    color: red;
+    font: bold;
+    font-variant-caps: titling-caps;
+    background-color: transparent;
+}
 

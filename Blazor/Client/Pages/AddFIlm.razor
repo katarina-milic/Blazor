@@ -4,6 +4,7 @@
 @inject NavigationManager NavigationManager
 
 <h1 id="naslov2">Unesi film</h1>
+<p class="alert-info">@poruka</p>
 
 <div class="row">
     <div class="col-md-12">
@@ -27,7 +28,7 @@
         <div class="form-group">
             <button type="submit"  class=" btn btnSacuvaj" @onclick="CreateFilm"> Sacuvaj </button>
         </div>
-        <p class="alert-success">@poruka</p>
+        
         
     </div>
 </div>
@@ -40,6 +41,8 @@
     {
         poruka = "Sacuvano!";
         await Http.SendJsonAsync(HttpMethod.Post, "/api/Film/Create",flm );
+        
+        await Task.Delay(2000);
         RedirectToIndex();
     }
     void RedirectToIndex()

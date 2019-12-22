@@ -1,0 +1,84 @@
+﻿@page "/registration"
+@using Blazor.Shared
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h1 id="naslov2">Registracija</h1>
+<p class="alert-info">@poruka</p>
+<p class="alert-danger">@error</p>
+<EditForm Model="korisnik" OnValidSubmit="CreateUser" OnInvalidSubmit="Error">
+    <DataAnnotationsValidator />
+
+    <ValidationSummary />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label id="tekst" for="Username" class="col-form-label-lg">Korisnicko ime</label>
+                <InputText placeholder="Korisnicko ime" class="form-control" @bind-Value="@korisnik.Username" />
+                <ValidationMessage For="@(() => korisnik.Username)" />
+            </div>
+            <div class="form-group">
+                <label id="tekst" for="FirstName" class="col-form-label-lg">Ime</label>
+                <InputText placeholder="Ime" class="form-control" @bind-Value="@korisnik.FirstName" />
+                <ValidationMessage For="@(() => korisnik.FirstName)" title="Unesite ime" />
+            </div>
+            <div class="form-group">
+                <label id="tekst" for="LastName" class="col-form-label-lg"> Prezime</label>
+                <InputText placeholder="Prezime" class="form-control" @bind-Value="@korisnik.LastName" />
+                <ValidationMessage For="@(() => korisnik.LastName)" />
+            </div>
+            <div class="form-group">
+                <label id="tekst" for="Email" class="col-form-label-lg">Email</label>
+                <InputText placeholder="E-mail" class="form-control" @bind-Value="@korisnik.Email" />
+                <ValidationMessage For="@(() =>  korisnik.Email)" />
+            </div>
+            <div class="form-group">
+                <label id="tekst" for="Password" class="col-form-label-lg">Sifra</label>
+                <input type="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$" title="Sifra mora imati minimum 8 karaktera i pri tome bar jedno veliko slovo, specijalan znak i broj" @bind="@korisnik.Password" class="form-control" placeholder="Unesite sifru" />
+                <ValidationMessage For="@(() => korisnik.Password)" />
+            </div>
+
+            <button id="btnreg" type="submit" class=" btn btnSacuvaj" @onclick="CreateUser"> Gotovo </button>
+            
+
+        </div>
+    </div>
+</EditForm>
+
+    @code {
+        User korisnik = new User();
+
+        string poruka;
+        string error;
+
+        protected async Task CreateUser()
+
+        {
+            User[] korisnici;
+            korisnici = await Http.GetJsonAsync<User[]>("api/User/Index");
+
+            foreach (User u in korisnici)
+            {  
+                if (u.Username == korisnik.Username | u.Email == korisnik.Email)
+                {
+                    error = "Korisnicko ime ili email je zauzeto.";
+                    poruka = "";
+                    return;
+                }
+
+            }
+             poruka = "Registrovali ste se!";
+                    await Http.SendJsonAsync(HttpMethod.Post, "/api/User/Create", korisnik);
+
+
+        }
+        void Error()
+        {
+            error = "Pogresan unos!";
+            poruka = "";
+        }
+        void RedirectToIndex()
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+    }

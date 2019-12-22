@@ -1,19 +1,34 @@
 ﻿@page "/"
 @inject NavigationManager NavigationManager
-<button type="button" class="btn-lg btnLogin" @onclick="Login">Ulogujte se</button>
-<div id="divnaslov">
-    <h1 id="naslov">Flamingo Cineplex </h1>
-</div>
+ <div >
+     <div style="align-items:center" class="btnLogin">
+         <button type="button" class="btn-lg btnLogin" style="margin-top:30px;margin-left:100px;width:300px" @onclick="Login">Ulogujte se</button>
+         <button type="button" class="btn-lg btnLogin" style="margin-top:30px;margin-left:100px;width:300px" @onclick="Registration">Registrujte se</button>
+         
+     </div>
+    
+         <h1 style="background:rgba(0, 0, 1, 0.4)" id="naslov" >Flamingo Cineplex </h1>
+    
+ </div>
 
 @code {
 
-    private void NavigateToCounterComponent()
+    private void NavigateToCounterComponentLogIn()
     {
         NavigationManager.NavigateTo("/login");
     }
+     private void NavigateToCounterComponentRegistration()
+    {
+        NavigationManager.NavigateTo("/registration");
+    }
+
     async Task Login()
     {
-        NavigateToCounterComponent();
+        NavigateToCounterComponentLogIn();
+    }
+    async Task Registration()
+    {
+        NavigateToCounterComponentRegistration();
     }
 }
 
