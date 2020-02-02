@@ -56,6 +56,7 @@
         {
             User[] korisnici;
             korisnici = await Http.GetJsonAsync<User[]>("api/User/Index");
+            
 
             foreach (User u in korisnici)
             {  
@@ -65,11 +66,14 @@
                     poruka = "";
                     return;
                 }
-
+                 
             }
-             poruka = "Registrovali ste se!";
-                    await Http.SendJsonAsync(HttpMethod.Post, "/api/User/Create", korisnik);
+             
+                   
+                    poruka = "Registrovali ste se!";
+                    await Http.SendJsonAsync(HttpMethod.Post, "api/User/Create", korisnik);
 
+            
 
         }
         void Error()

@@ -1,9 +1,12 @@
 ﻿using Blazor.Shared;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazor.Server.Helpers;
 
 namespace Blazor.Server.Data
 {
@@ -38,13 +41,23 @@ namespace Blazor.Server.Data
             db.SaveChanges();
         }
 
+      /*  public async Task<ActionResult<List<User>>> GetAll([FromQuery] PaginationDTO pagination,
+                [FromQuery] string name)
+        {
+            var queryable = db.Korisnici.AsQueryable();
+            if (!string.IsNullOrEmpty(name))
+            {
+                queryable = queryable.Where(x => x.FirstName.Contains(name));
+            }
+            await HttpContext.InsertPaginationParameterInResponse(queryable, pagination.QuantityPerPage);
+            return await queryable.Paginate(pagination).ToListAsync();
 
-
-        public IEnumerable<User> GetAllUsers()
+        }*/
+       public IEnumerable<User> GetAll()
         {
             return db.Korisnici.ToList();
 
-        }
+        } 
         public User GetUser(int id)
         {
             var user = db.Korisnici.Find(id);

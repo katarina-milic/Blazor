@@ -2,8 +2,20 @@
 @using Blazor.Shared
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
+@using System.Text.Json
+@using Microsoft.AspNetCore.Blazor
+@inject HttpClient Http
 
 <h1 id="naslov2">Korisnici</h1>
+
+<div class="form-inline">
+    <label class="sr-only" for="filter-name"> Filter </label>
+    <input type="text" style="margin-right:100px ; width:400px" class="form-control"  @onchange="OnNameChanged" oninput="(this.dispatchEvent(new CustomEvent('change', {bubbles: true})))" placeholder="Pronadjite zeljenog korisnika.." />
+    <button type="button" class="btnSacuvaj" @onclick="Nazad"> Vrati korisnike </button>
+</div>
+@*<Pagination TotaPagesQuantity="totalPageQuantity" CurrentPage="currentPage" Radius="2"
+    SelectedPage="SelectedPage"></Pagination>*@
+
 
 @if (korisnici == null)
 {
@@ -28,8 +40,11 @@ else
                 <tr>
 
                     <td>@user.FirstName</td>
+
                     <td>@user.LastName</td>
+
                     <td>@user.Email</td>
+
                     <td> <a href="/edituser/@user.Id" style=" color:rgb(76, 255, 0)">Izmeni</a></td>
                     <td><button class="btnDelete" @onclick="(async () => await DeleteUser(user.Id))">Obrisi</button></td>
 
@@ -37,24 +52,113 @@ else
             }
         </tbody>
     </table>
-
 }
 
+
 @code {
+    //   List<User> users { get; set; }
     User[] korisnici;
+    private int totalPageQuantity;
+    private int currentPage = 1;
     User user = new User();
+
+    private string nameFilter = string.Empty;
+
     protected override async Task OnInitializedAsync()
     {
-        korisnici = await Http.GetJsonAsync<User[]>("api/User/Index");
+
+        korisnici = await Http.GetJsonAsync<User[]>("/api/User/Index");
+        
     }
+  
+    // POMOCNE FUNKCIJE
+    void OnEmailChanged(ChangeEventArgs args)
+    {
+        string values = args.Value.ToString();
+        userFilter(values, "Email");
+    }
+
+    void OnLastNameChanged(ChangeEventArgs args)
+    {
+        string values = args.Value.ToString();
+        userFilter(values, "Prezime");
+    }
+    void OnNameChanged(ChangeEventArgs args)
+    {
+        string values = args.Value.ToString();
+        userFilter(values, "Ime");
+    }
+
+
+
+    protected async Task userFilter(String Value, string columnName)
+    {
+        korisnici = await Http.GetJsonAsync<User[]>("/api/User/Index");
+
+        if (Value.Trim().Length > 0)
+        {
+            switch (columnName)
+            {
+                case "Ime":
+                    korisnici = korisnici.Where(x => x.FirstName.Contains(Value)).ToArray();
+                    break;
+
+                case "Prezime":
+                    korisnici = korisnici.Where(x => x.LastName.Contains(Value)).ToArray();
+                    break;
+                case "Email":
+                    korisnici = korisnici.Where(x => x.Email.Contains(Value)).ToArray();
+                    break;
+
+                default:
+                    korisnici = await Http.GetJsonAsync<User[]>("/api/User/Index");
+                    break;
+            }
+        }
+        else
+        {
+            korisnici = await Http.GetJsonAsync<User[]>("/api/User/Index");
+        }
+    }
+
+    protected async Task Nazad()
+      {
+           NavigationManager.NavigateTo("/fetchusers");
+          
+      }
+
     protected async Task DeleteUser(int id)
     {
         await Http.DeleteAsync($"api/User/Delete/{id}");
         RedirectToIndex();
-        
+
     }
+    /*  private async Task SelectedPage(int page)
+      {
+          currentPage = page;
+         await LoadPeople(page);
+      }
+
+      async Task LoadPeople(int page = 1, int quantityPerPage = 10)
+      {
+          //await Task.Delay(4000);
+          var httpResponse = await Http.GetAsync($"api/fetchusers?page={page}&quantityPerPage={quantityPerPage}&name={nameFilter}");
+          if (httpResponse.IsSuccessStatusCode)
+          {
+              totalPageQuantity = int.Parse(httpResponse.Headers.GetValues("pagesQuantity").FirstOrDefault());
+              var responseString = await httpResponse.Content.ReadAsStringAsync();
+              users = JsonSerializer.Deserialize<List<User>>(responseString,
+                  new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+          }
+          else
+          {
+              // handle error
+          }
+      }*/
+ 
     void RedirectToIndex()
     {
         NavigationManager.NavigateTo("/deletedpageuser");
     }
+  
 }
