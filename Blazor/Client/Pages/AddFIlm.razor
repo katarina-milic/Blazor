@@ -1,7 +1,8 @@
 ﻿@page "/addfilm"
-@using Blazor.Shared
-@inject HttpClient Http
+
+@inject HttpClient http
 @inject NavigationManager NavigationManager
+@using Blazor.Shared
 
 <h1 id="naslov2">Unesi film</h1>
 <p class="alert-info">@poruka</p>
@@ -16,7 +17,7 @@
             <label id="tekst" for="Zanr" class="col-form-label-lg">Zanr</label>
             <select for="Zanr" @bind="@flm.Zanr" class="form-control" placeholder="Unesite zanr filma">
                 <option disabled hidden selected value=""> Odaberite zanr filma</option>
-                <option  value="KOMEDIJA">KOMEDIJA</option>
+                <option value="KOMEDIJA">KOMEDIJA</option>
                 <option value="ROMANTIKA">ROMANTIKA</option>
                 <option value="HOROR">HOROR</option>
                 <option value="TRAGEDIJA">TRAGEDIJA</option>
@@ -26,22 +27,44 @@
             </select>
         </div>
         <div class="form-group">
-            <button type="submit"  class=" btn btnSacuvaj" @onclick="CreateFilm"> Sacuvaj </button>
+                <label id="tekst" for="Datum" class="col-form-label-lg">Datum</label>
+                <input type="datetime" @bind-value="datum" class="form-control" />
+            </div>
+        <button type="submit" class=" btn btnSacuvaj" @onclick="NapraviListu"> Dodaj projekciju </button>
+        
+        @* <DatePicker Inline=true />
+            <input type="text" @onfocus=@focussed />
+            <DatePicker Visible="visible" OnsSelected="selected" /> *@
+
+        <div class="form-group">
+            <button type="submit" class=" btn btnSacuvaj" @onclick="CreateFilm"> Sacuvaj </button>
         </div>
-        
-        
+
+
     </div>
 </div>
 
 @code {
-    Film flm = new Film();
-    string poruka;
 
+        public Film flm = new Film() { Projekcije = new List<DatumProjekcije>() };
+
+    string poruka;
+    DateTime datum;
+    List<DatumProjekcije> projekcije;
+
+    protected async Task NapraviListu()
+    {
+        DatumProjekcije dat = new DatumProjekcije();
+        dat.Datum = datum;
+        flm.Projekcije.Add(dat);
+        // await http.SendJsonAsync(HttpMethod.Post, "/api/DatumProjekcije/Create", dat);
+
+    }
     protected async Task CreateFilm()
     {
         poruka = "Sacuvano!";
-        await Http.SendJsonAsync(HttpMethod.Post, "/api/Film/Create",flm );
-        
+        await http.SendJsonAsync(HttpMethod.Post, "/api/Film/Create", flm);
+
         await Task.Delay(2000);
         RedirectToIndex();
     }
@@ -49,4 +72,5 @@
     {
         NavigationManager.NavigateTo("/fetchfilms");
     }
+
 }

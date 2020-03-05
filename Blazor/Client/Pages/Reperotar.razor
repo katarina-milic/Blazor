@@ -1,0 +1,106 @@
+﻿@page "/repertoar"
+@using Blazor.Shared
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h1 id="naslov2">Repertoar</h1>
+
+<div class="form-inline">
+    <label class="sr-only" for="filter-name"> Filter </label>
+    <input type="text" style="margin-right:100px ; width:400px" class="form-control" @onchange="OnNameChanged" oninput="(this.dispatchEvent(new CustomEvent('change', {bubbles: true})))" placeholder="Pronadjite zeljeni film.." />
+    <button type="button" class="btnSacuvaj" @onclick="Nazad"> Vrati sve filmove </button>
+</div>
+
+@if (filmovi == null)
+{
+    <p id="tekst"><em>Loading...</em></p>
+}
+else
+{
+
+    <table id="grad" class="table">
+        <thead>
+            <tr>
+                <th>Naziv</th>
+
+
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var film in filmovi)
+            {
+                <tr>
+
+                    <td>@film.Naziv</td>
+                    <td><button class="btnSacuvaj" @onclick="(async () => await DetaljiFilm(film.Id))">Detalji</button></td>
+                    <td> <a href="rezervacija/@film.Id" class=" btn btnDelete">Rezervisi</a></td>
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+@code {
+    Film[] filmovi;
+    Film film = new Film();
+    protected override async Task OnInitializedAsync()
+    {
+        filmovi = await Http.GetJsonAsync<Film[]>("api/Film/Index");
+    }
+    protected async Task DetaljiFilm(int id)
+    {
+        film = await Http.GetJsonAsync<Film>($"api/Film/Details/{id}");
+    }
+
+    /*  protected async Task CreateRezervacija()
+      {
+          NavigationManager.NavigateTo("/rezervacija");
+      }*/
+
+
+    // FILTER
+
+    void OnNameChanged(ChangeEventArgs args)
+    {
+        string values = args.Value.ToString();
+        filmFilter(values, "Naziv");
+    }
+    protected async Task filmFilter(String Value, string columnName)
+    {
+        filmovi = await Http.GetJsonAsync<Film[]>("api/Film/Index");
+
+        if (Value.Trim().Length > 0)
+        {
+            switch (columnName)
+            {
+                case "Naziv":
+                    filmovi = filmovi.Where(x => x.Naziv.Contains(Value)).ToArray();
+                    break;
+
+
+                default:
+
+                    filmovi = await Http.GetJsonAsync<Film[]>("api/Film/Index");
+
+                    break;
+            }
+        }
+        else
+        {
+            filmovi = await Http.GetJsonAsync<Film[]>("api/Film/Index");
+        }
+    }
+
+    protected async Task Nazad()
+    {
+        NavigationManager.NavigateTo("/repertoar");
+
+    }
+
+
+}

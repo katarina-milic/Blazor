@@ -11,9 +11,12 @@ namespace Blazor.Server.Data
     {
         public virtual DbSet<Film> Filmovi { get; set; }
         public virtual DbSet<User> Korisnici { get; set; }
+        public virtual DbSet<Rezervacija> Rezervacije { get; set; }
+        public virtual DbSet<DatumProjekcije> Projekcije { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            if(!options.IsConfigured)
+            if (!options.IsConfigured)
             {
                 options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BlazorDatabase;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             }

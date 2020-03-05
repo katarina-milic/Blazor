@@ -4,14 +4,16 @@ using Blazor.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Blazor.Server.Migrations
 {
     [DbContext(typeof(FilmContext))]
-    partial class FilmContextModelSnapshot : ModelSnapshot
+    [Migration("20200207124736_Baza")]
+    partial class Baza
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,9 +69,6 @@ namespace Blazor.Server.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("DatumId")
-                        .HasColumnType("int");
-
                     b.Property<int>("FilmId")
                         .HasColumnType("int");
 
@@ -77,8 +76,6 @@ namespace Blazor.Server.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DatumId");
 
                     b.HasIndex("FilmId");
 
@@ -150,10 +147,6 @@ namespace Blazor.Server.Migrations
 
             modelBuilder.Entity("Blazor.Shared.Rezervacija", b =>
                 {
-                    b.HasOne("Blazor.Shared.DatumProjekcije", "Datum")
-                        .WithMany()
-                        .HasForeignKey("DatumId");
-
                     b.HasOne("Blazor.Shared.Film", "Film")
                         .WithMany()
                         .HasForeignKey("FilmId")

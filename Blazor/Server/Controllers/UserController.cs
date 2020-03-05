@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazor.Server.Data;
-using Blazor.Server.Helpers;
+
 using Blazor.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -56,6 +56,12 @@ namespace Blazor.Server.Controllers
         public User Details(int id)
         {
             return objkor.GetUser(id);
+        }
+        [HttpGet]
+        [Route("api/User/DetailsByEmail/{email}")]
+        public User DetailsByEmail(string email)
+        {
+            return objkor.GetUser(email);
         }
         [HttpPut]
         [Route("api/User/Edit")]

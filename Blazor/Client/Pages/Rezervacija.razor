@@ -1,0 +1,134 @@
+﻿
+@page "/rezervacija/{Id}"
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@using Blazor.Shared
+
+<h1 id="naslov2">Rezervacija</h1>
+<p class="alert-info">@poruka</p>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label id="tekst" for="Ime" class="col-form-label-lg">Email</label>
+            <input for="Ime" @bind-value="korisnik.Email" class="form-control" placeholder="Unesite vas email" />
+        </div>
+        <div class="form-group">
+            <label id="tekst" for="Naziv" class="col-form-label-lg">Odabrani film</label>
+            <input for="Naziv"  @bind-value="flm.Naziv" class="form-control" disabled />
+        </div>
+
+        @******************************************************************************************@
+
+        <div class="form-group">
+            <label id="tekst" for="Datum" class="col-form-label-lg">Datum i vreme projekcije</label>
+            @* <select multiple="multiple" @bind-Value="rez.">
+                    <option></option>
+                    @foreach (DatumProjekcije d in ucitajProjekcije())
+                    {
+                        <option>@d.Datum;</option>
+
+
+                    }
+
+                </select> *@
+        </div>
+        <div class="form-group">
+            <label id="tekst" for="Sediste" class="col-form-label-lg">Izaberite sedista</label>
+
+            <select>
+                <option></option>
+                @foreach (Sediste s in ucitajSedista())
+                {
+                    <option> @s.Id;</option>
+                    listaSedista.Add(s);
+
+                }
+
+            </select>
+
+
+        </div>
+        @********************************************************************************************@
+        <div class="form-group">
+            <button type="submit" class=" btn btnSacuvaj" @onclick="CreateRezervacija"> Sacuvaj </button>
+        </div>
+
+
+    </div>
+</div>
+
+@code {
+
+        User korisnik = new User();
+        string poruka;
+        DatumProjekcije datum = new DatumProjekcije();
+        DatumProjekcije projekcija = new DatumProjekcije();
+
+    [Parameter]
+    public string Id { get; set; }
+    Film flm = new Film();
+
+    public List<Sediste> listaSedista = new List<Sediste>();
+    public List<DatumProjekcije> listaProjekcija = new List<DatumProjekcije>();
+
+
+
+
+
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        flm = await Http.GetJsonAsync<Film>($"api/Film/Details/{Convert.ToInt32(Id)}");
+    }
+    protected async Task CreateRezervacija()
+    {
+        //korisnik = await Http.GetJsonAsync<User>($"api/User/Details/{korisnik.Email}");
+       
+        var rezervacija = new Blazor.Shared.Rezervacija();
+      
+        rezervacija.Film = flm;
+        rezervacija.Sedista = new List<Sediste>() { new Sediste() { IsReserved = true } };
+        rezervacija.User = await VratiUsera(korisnik.Email);
+
+
+        poruka = "Sacuvano!";
+        await Http.SendJsonAsync(HttpMethod.Post, "/api/Rezervacija/Create/", rezervacija);
+
+        await Task.Delay(2000);
+        //RedirectToIndex();
+    }
+
+
+    private async Task<User> VratiUsera(string email)
+    {
+        var korisnik = await Http.GetJsonAsync<User>($"api/User/DetailsByEmail/{email}");
+
+        return korisnik;
+    }
+
+    public List<DatumProjekcije> ucitajProjekcije()
+    {
+        List<DatumProjekcije> lista = new List<DatumProjekcije>();
+
+        foreach (DatumProjekcije d in flm.Projekcije)
+        {
+            lista.Add(d);
+        }
+        return lista;
+
+    }
+
+    public List<Sediste> ucitajSedista()
+    {
+        OpreativnaMemorija o = new OpreativnaMemorija();
+        return o.VratiSedista();
+    }
+
+    void RedirectToIndex()
+    {
+        NavigationManager.NavigateTo("/fetchfilms");
+    }
+}

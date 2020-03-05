@@ -1,0 +1,54 @@
+﻿@page "/sverezervacije"
+@using Blazor.Shared
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h1 id="naslov2">Sve Rezervacije</h1>
+
+@if (rezervacije == null)
+{
+    <p id="tekst"><em>Loading...</em></p>
+}
+else
+{
+
+    <table id="grad" class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Korisnik</th>
+                <th>Film</th>
+                <th>Datum</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var rez in rezervacije)
+            {
+                <tr>
+
+                    <td>@rez.Id</td>
+                    
+                    
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+@code {
+    Rezervacija[] rezervacije;
+    Rezervacija rez = new Rezervacija();
+    protected override async Task OnInitializedAsync()
+    {
+        rezervacije = await Http.GetJsonAsync<Rezervacija[]>(@"api/Rezervacija/Index");
+    }
+   
+    void RedirectToIndex()
+    {
+        NavigationManager.NavigateTo("/deletedpage");
+    }
+}

@@ -4,10 +4,12 @@
 @using Blazor.Shared
 
 <h3 style="margin-bottom:20px" id="naslov2">Ulogujte se</h3>
-<label class="alert-danger">@Error</label>
+<p class="alert-danger">@error</p>
+<p class="alert-info">@uspesno</p>
+
 
 <EditForm Model="user" OnValidSubmit="LoginUser">
-    
+
     <ValidationSummary />
     <div class="row">
         <div class="col-md-12">
@@ -35,7 +37,8 @@
 
 @code {
     private User user = new User();
-    public string Error { get; set; }
+    public string error;
+    public string uspesno;
     private void NavigateToCounterComponent()
     {
         NavigationManager.NavigateTo("/addfilm");
@@ -47,13 +50,22 @@
         users = await Http.GetJsonAsync<List<User>>(@"api/User/Index");
         foreach (User u in users)
         {
-            if (u.Username == user.Username && u.Password == user.Password)
+            if (u.Username != user.Username && u.Password != user.Password)
             {
-                NavigateToCounterComponent();
+                 error = "Korisnik nije ulogovan.";
+                
+               
+
             }
+
             else
             {
-                Error = "Korisnik nije ulogovan.";
+                Sesija.Instance.Korisnik.Username = u.Username;
+                NavMenu navMenu = new NavMenu();
+                navMenu.user = u;
+                NavigationManager.NavigateTo("/uspesanLogIn");
+                
+               
             }
         }
 
