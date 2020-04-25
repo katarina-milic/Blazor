@@ -25,6 +25,21 @@
 
             </select>
         </div>
+       @* <div class="form-group">
+            <label id="tekst" for="Datum" class="col-form-label-lg">Datum</label>
+            <input type="datetime" @bind-value="noviDatum" class="form-control" />
+            <div class="form-group">
+                <label id="tekst" for="Projekcije" class="col-form-label-lg"> Trenutne projekcije </label>
+                <table id="grad" class="table">
+                    @foreach (var p in flm.Projekcije)
+                    {
+                        <tr> @p.Datum</tr>
+                    }
+                </table>
+            </div>
+        </div>
+        <button type="submit" class=" btn btnSacuvaj" @onclick="NapraviListu"> Dodaj projekciju </button>
+           *@
         <div class="form-group">
             <button type="submit" class=" btn btnSacuvaj" @onclick="UpdateFilm"> Sacuvaj </button>
         </div>
@@ -35,21 +50,30 @@
 
 @code {
     string poruka;
-
+    Film flm = new Film();// { Projekcije = new List<DatumProjekcije>() };
     [Parameter]
     public string Id { get; set; }
+  //  DateTime noviDatum;
 
-    Film flm = new Film();
+
+
     protected override async Task OnInitializedAsync()
     {
         flm = await Http.GetJsonAsync<Film>($"api/Film/Details/{Convert.ToInt32(Id)}");
+
     }
+    /* protected async Task NapraviListu()
+     {
+         DatumProjekcije dat = new DatumProjekcije();
+         dat.Datum = noviDatum;
+         flm.Projekcije.Add(dat);
+     }*/
     protected async Task UpdateFilm ()
     {
         await Http.SendJsonAsync(HttpMethod.Put, "api/Film/Edit", flm);
         RedirectToIndex();
     }
-     void RedirectToIndex()
+    void RedirectToIndex()
     {
         NavigationManager.NavigateTo("/fetchfilms");
     }

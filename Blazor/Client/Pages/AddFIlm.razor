@@ -1,6 +1,6 @@
 ﻿@page "/addfilm"
 
-@inject HttpClient http
+@inject HttpClient Http
 @inject NavigationManager NavigationManager
 @using Blazor.Shared
 
@@ -27,18 +27,26 @@
             </select>
         </div>
         <div class="form-group">
-                <label id="tekst" for="Datum" class="col-form-label-lg">Datum</label>
-                <input type="datetime" @bind-value="datum" class="form-control" />
-            </div>
+            <label id="tekst" for="Datum" class="col-form-label-lg">Datum</label>
+            <input type="datetime" @bind-value="datum" class="form-control" />
+        </div>
         <button type="submit" class=" btn btnSacuvaj" @onclick="NapraviListu"> Dodaj projekciju </button>
-        
-        @* <DatePicker Inline=true />
+        <div class="form-group">
+        <label id="tekst" for="Projekcije" class="col-form-label-lg"> Trenutne projekcije </label>
+        <table id="grad" class="table">
+            @foreach (var p in flm.Projekcije)
+            {
+            <tr> @p.Datum</tr>
+            }
+        </table>
+        </div>
+            @* <DatePicker Inline=true />
             <input type="text" @onfocus=@focussed />
             <DatePicker Visible="visible" OnsSelected="selected" /> *@
 
-        <div class="form-group">
-            <button type="submit" class=" btn btnSacuvaj" @onclick="CreateFilm"> Sacuvaj </button>
-        </div>
+            <div class="form-group">
+                <button type="submit" class=" btn btnSacuvaj" @onclick="CreateFilm"> Sacuvaj </button>
+            </div>
 
 
     </div>
@@ -46,24 +54,26 @@
 
 @code {
 
-        public Film flm = new Film() { Projekcije = new List<DatumProjekcije>() };
-
+    public Film flm = new Film() { Projekcije = new List<DatumProjekcije>() };
+  
     string poruka;
     DateTime datum;
     List<DatumProjekcije> projekcije;
+
 
     protected async Task NapraviListu()
     {
         DatumProjekcije dat = new DatumProjekcije();
         dat.Datum = datum;
         flm.Projekcije.Add(dat);
+       
         // await http.SendJsonAsync(HttpMethod.Post, "/api/DatumProjekcije/Create", dat);
 
     }
     protected async Task CreateFilm()
     {
         poruka = "Sacuvano!";
-        await http.SendJsonAsync(HttpMethod.Post, "/api/Film/Create", flm);
+        await Http.SendJsonAsync(HttpMethod.Post, "/api/Film/Create", flm);
 
         await Task.Delay(2000);
         RedirectToIndex();
