@@ -7,9 +7,10 @@ namespace Blazor.Shared
     public class Sesija
     {
         private static Sesija instance;
-
+        public List<DatumProjekcije> Projekcije { get; set; } = new List<DatumProjekcije>();
         public static Sesija Instance
         {
+
             get
             {
                 if (instance == null)

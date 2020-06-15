@@ -20,6 +20,7 @@ namespace Blazor.Server.Data
         public Film GetFilm(int id)
         {
             var film = db.Filmovi.Find(id);
+            //film.Projekcije = db.Projekcije.Where(x => x.FilmId == film.Id).ToList();
             return film;
         }
         public void AddFilm(Film film)

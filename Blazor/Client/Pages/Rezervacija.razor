@@ -36,16 +36,38 @@
         <div class="form-group">
             <label id="tekst" for="Sediste" class="col-form-label-lg">Izaberite sedista</label>
 
-            <select>
-                <option></option>
-                @foreach (Sediste s in ucitajSedista())
-                {
-                    <option> @s.Id;</option>
-                    listaSedista.Add(s);
-
-                }
-
-            </select>
+            <GenericList Elements="listaProjekcija">
+                <NullTemplate>
+                    <div>
+                        <img class="center" height="100" width="100" src="http://www.pzv.org.rs/obuke/images/loading.gif" />
+                    </div>
+                </NullTemplate>
+                <EmptyTemplate>
+                    <div>
+                        <label>Nema projekcija</label>
+                    </div>
+                </EmptyTemplate>
+                <WithElementsTemplate>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                              
+                                <th>Datum</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var projekcija in listaProjekcija)
+                            {
+                                <tr>
+                                    <td>@projekcija.Datum</td>                            
+                                 
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </WithElementsTemplate>
+            </GenericList>
 
 
         </div>
@@ -60,10 +82,11 @@
 
 @code {
 
-        User korisnik = new User();
-        string poruka;
-        DatumProjekcije datum = new DatumProjekcije();
-        DatumProjekcije projekcija = new DatumProjekcije();
+    User korisnik = new User();
+    string poruka;
+    DatumProjekcije datum = new DatumProjekcije();
+    DatumProjekcije projekcija = new DatumProjekcije();
+
 
     [Parameter]
     public string Id { get; set; }
@@ -73,22 +96,26 @@
     public List<DatumProjekcije> listaProjekcija = new List<DatumProjekcije>();
 
 
-
-
-
-
-
-
     protected override async Task OnInitializedAsync()
     {
         flm = await Http.GetJsonAsync<Film>($"api/Film/Details/{Convert.ToInt32(Id)}");
+
+        napuni();
     }
+
+    private void napuni()
+    {
+        listaProjekcija = flm.Projekcije;
+
+        this.StateHasChanged();
+    }
+
     protected async Task CreateRezervacija()
     {
         //korisnik = await Http.GetJsonAsync<User>($"api/User/Details/{korisnik.Email}");
-       
+
         var rezervacija = new Blazor.Shared.Rezervacija();
-      
+
         rezervacija.Film = flm;
         rezervacija.Sedista = new List<Sediste>() { new Sediste() { IsReserved = true } };
         rezervacija.User = await VratiUsera(korisnik.Email);
