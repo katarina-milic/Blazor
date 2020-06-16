@@ -210,6 +210,7 @@ app {
         }
     }
 }
+/*--------------DUGMICI-----------------------*/
 .btnLogin button {
     background-color: rgb(94, 5, 5);
     -webkit-animation-name: button; /* Safari 4.0 - 8.0 */
@@ -277,6 +278,7 @@ app {
     color: rgb(21, 0, 0);
     box-shadow: rgb(76, 255, 0)
 }
+/*------------FORME------------*/
 .form-control {
     background-color: #f8d09c;
     color: #495057;
@@ -375,5 +377,11 @@ div.desc {
     content: "";
     display: table;
     clear: both;
+}
+#center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
 }
 

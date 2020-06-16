@@ -133,28 +133,6 @@ else
         RedirectToIndex();
 
     }
-    /*  private async Task SelectedPage(int page)
-      {
-          currentPage = page;
-         await LoadPeople(page);
-      }
-
-      async Task LoadPeople(int page = 1, int quantityPerPage = 10)
-      {
-          //await Task.Delay(4000);
-          var httpResponse = await Http.GetAsync($"api/fetchusers?page={page}&quantityPerPage={quantityPerPage}&name={nameFilter}");
-          if (httpResponse.IsSuccessStatusCode)
-          {
-              totalPageQuantity = int.Parse(httpResponse.Headers.GetValues("pagesQuantity").FirstOrDefault());
-              var responseString = await httpResponse.Content.ReadAsStringAsync();
-              users = JsonSerializer.Deserialize<List<User>>(responseString,
-                  new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-          }
-          else
-          {
-              // handle error
-          }
-      }*/
  
     void RedirectToIndex()
     {

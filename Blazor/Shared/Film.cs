@@ -20,6 +20,7 @@ namespace Blazor.Shared
         [Required]
         public string Zanr { get; set; }
         [Required]
+        
         public List<DatumProjekcije> Projekcije { get; set; } = new List<DatumProjekcije>();
 
 

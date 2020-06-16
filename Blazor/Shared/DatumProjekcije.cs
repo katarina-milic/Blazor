@@ -9,8 +9,8 @@ namespace Blazor.Shared
     {
         public int Id { get; set; }
         public DateTime Datum { get; set; }
-        //[ForeignKey("Film")]
         //public int FilmId { get; set; }
-        //public Film Film { get; set; }
+        [NotMapped]
+        public Film Film { get; set; }
     }
 }

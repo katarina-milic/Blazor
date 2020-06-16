@@ -21,5 +21,8 @@ namespace Blazor.Server.Data
                 options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BlazorDatabase;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             }
         }
+
+   
     }
+    
 }

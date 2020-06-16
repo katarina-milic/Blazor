@@ -30,7 +30,7 @@
             </div>
         </div>
     </div>
-    <a href="/forgotPassword" id="tekst">Forgot password?</a>
+    <a href="/forgotPassword" id="tekst">Zaboravili ste lozinku?</a>
     <button type="submit" class="btn btnSacuvaj" @onclick="LoginUser">Log in</button>
 
 </EditForm>
@@ -50,9 +50,15 @@
         users = await Http.GetJsonAsync<List<User>>(@"api/User/Index");
         foreach (User u in users)
         {
-            if (u.Username != user.Username && u.Password != user.Password)
+            if (u.Username == user.Username && u.Password == user.Password)
             {
-                 error = "Korisnik nije ulogovan.";
+                Sesija.Instance.Korisnik.Username = u.Username;
+                NavMenu navMenu = new NavMenu();
+                navMenu.user = u;
+                
+                NavigationManager.NavigateTo("/uspesanLogIn");
+                this.StateHasChanged();
+                 
                 
                
 
@@ -60,12 +66,8 @@
 
             else
             {
-                Sesija.Instance.Korisnik.Username = u.Username;
-                NavMenu navMenu = new NavMenu();
-                navMenu.user = u;
-                NavigationManager.NavigateTo("/uspesanLogIn");
+               error = "Korisnik nije ulogovan.";
                 
-               
             }
         }
 

@@ -32,25 +32,22 @@
         </div>
         <button type="submit" class=" btn btnSacuvaj" @onclick="NapraviListu"> Dodaj projekciju </button>
         <div class="form-group">
-        <label id="tekst" for="Projekcije" class="col-form-label-lg"> Trenutne projekcije </label>
-        <table id="grad" class="table">
-            @foreach (var p in flm.Projekcije)
-            {
-            <tr> @p.Datum</tr>
-            }
-        </table>
+            <label id="tekst" for="Projekcije" class="col-form-label-lg"></label>
+            <table id="grad" class="table">
+                <th> Trenutne projekcije </th>
+                @foreach (var p in flm.Projekcije)
+                {
+                    <tr> @p.Datum</tr>
+                }
+            </table>
         </div>
-            @* <DatePicker Inline=true />
-            <input type="text" @onfocus=@focussed />
-            <DatePicker Visible="visible" OnsSelected="selected" /> *@
 
-            <div class="form-group">
-                <button type="submit" class=" btn btnSacuvaj" @onclick="CreateFilm"> Sacuvaj </button>
-            </div>
-
-
-    </div>
+        <div id="center" class="form-group">
+            <button type="submit" class=" btn-lg btnSacuvaj" @onclick="CreateFilm"> Sacuvaj </button>
+        </div> 
+       
 </div>
+    </div>
 
 @code {
 
