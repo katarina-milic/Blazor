@@ -17,7 +17,8 @@ else
             <tr>
                 <th>Naziv</th>
                 <th>Zanr</th>
-                <th>Izmeni</th>
+                <th>Izmena</th>
+                <th>Brisanje</th>
 
 
             </tr>
@@ -30,7 +31,7 @@ else
                     <td>@film.Naziv</td>
                     <td>@film.Zanr</td>
                     <td> <a href="/editfilm/@film.Id" style=" color:rgb(76, 255, 0)">Izmeni</a></td>
-                    <td><button class="btnDelete" @onclick="(async () => await DeleteFilm(film.Id))">Obrisi</button></td>
+                    <td><button class="btnDelete" @onclick="(async () => await DeleteFilm(film.Id))">Obriši</button></td>
 
                 </tr>
             }

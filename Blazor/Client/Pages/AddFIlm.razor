@@ -23,12 +23,15 @@
                 <option value="TRAGEDIJA">TRAGEDIJA</option>
                 <option value="AKCIJA">AKCIJA</option>
                 <option value="TRILER">TRILER</option>
+                <option value="DRAMA">DRAMA</option>
+                <option value="NAUCNA FANTASTIKA">NAUCNA FANTASTIKA</option>
 
             </select>
         </div>
         <div class="form-group">
             <label id="tekst" for="Datum" class="col-form-label-lg">Datum</label>
-            <input type="datetime" @bind-value="datum" class="form-control" />
+            <input type="datetime-local" id="date_timepicker_end" min="2020-06-01T10:30" max="2020-07-30T22:30" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" required @bind-value="datum" class="form-control" />
+            <span class="validity"></span>
         </div>
         <button type="submit" class=" btn btnSacuvaj" @onclick="NapraviListu"> Dodaj projekciju </button>
         <div class="form-group">
@@ -37,20 +40,20 @@
                 <th> Trenutne projekcije </th>
                 @foreach (var p in flm.Projekcije)
                 {
+
                     <tr> @p.Datum</tr>
                 }
             </table>
         </div>
 
         <div id="center" class="form-group">
-            <button type="submit" class=" btn-lg btnSacuvaj" @onclick="CreateFilm"> Sacuvaj </button>
+            <button type="submit" class=" btn-lg btnSacuvaj" @onclick="CreateFilm"> Sačuvaj </button>
         </div> 
        
 </div>
     </div>
 
 @code {
-
     public Film flm = new Film() { Projekcije = new List<DatumProjekcije>() };
   
     string poruka;
@@ -62,10 +65,7 @@
     {
         DatumProjekcije dat = new DatumProjekcije();
         dat.Datum = datum;
-        // dat.Film = flm;
         flm.Projekcije.Add(dat);
-       
-        // await http.SendJsonAsync(HttpMethod.Post, "/api/DatumProjekcije/Create", dat);
 
     }
     protected async Task CreateFilm()

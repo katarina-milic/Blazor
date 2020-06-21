@@ -20,55 +20,46 @@
 
         @******************************************************************************************@
 
-        <div class="form-group">
-            <label id="tekst" for="Datum" class="col-form-label-lg">Datum i vreme projekcije</label>
-            @* <select multiple="multiple" @bind-Value="rez.">
-                    <option></option>
-                    @foreach (DatumProjekcije d in ucitajProjekcije())
-                    {
-                        <option>@d.Datum;</option>
+    <div class="form-group">
+        <label id="tekst" for="Datum" class="col-form-label-lg">Datum i vreme projekcije</label>
+        <GenericList Elements="listaProjekcija">
+            <NullTemplate>
+                <div>
+                    <img class="center" height="100" width="100" src="http://www.pzv.org.rs/obuke/images/loading.gif" />
+                </div>
+            </NullTemplate>
+            <EmptyTemplate>
+                <div>
+                    <label id="tekst">Nema projekcija</label>
+                </div>
+            </EmptyTemplate>
+            <WithElementsTemplate>
+                <table id="grad" class="table">
+                    <thead>
+                        <tr>
 
+                            <th>Datum</th>
 
-                    }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var projekcija in listaProjekcija)
+                        {
+                            <tr>
+                                <td>@projekcija.Datum</td>
 
-                </select> *@
-        </div>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </WithElementsTemplate>
+        </GenericList>
+
+    </div>
         <div class="form-group">
             <label id="tekst" for="Sediste" class="col-form-label-lg">Izaberite sedista</label>
 
-            <GenericList Elements="listaProjekcija">
-                <NullTemplate>
-                    <div>
-                        <img class="center" height="100" width="100" src="http://www.pzv.org.rs/obuke/images/loading.gif" />
-                    </div>
-                </NullTemplate>
-                <EmptyTemplate>
-                    <div>
-                        <label id="tekst">Nema projekcija</label>
-                    </div>
-                </EmptyTemplate>
-                <WithElementsTemplate>
-                    <table id="grad" class="table">
-                        <thead>
-                            <tr>
-                              
-                                <th>Datum</th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var projekcija in listaProjekcija)
-                            {
-                                <tr>
-                                    <td>@projekcija.Datum</td>                            
-                                 
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </WithElementsTemplate>
-            </GenericList>
-
+           
 
         </div>
         @********************************************************************************************@

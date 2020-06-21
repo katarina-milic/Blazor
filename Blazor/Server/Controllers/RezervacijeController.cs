@@ -34,14 +34,6 @@ namespace Blazor.Server.Controllers
             return objrez.GetRezervacija(id);
         }
 
-    /*   [HttpGet]
-        [Route("rezervacija/{id}")]
-        public IActionResult Rezervisi(int id)
-        {
-            //rezervacija
-            return View("../Pages/rezervacija");
-        }
-        */
         [HttpPut]
         [Route("api/Rezervacija/Edit")]
         public void Edit([FromBody] Rezervacija rez)

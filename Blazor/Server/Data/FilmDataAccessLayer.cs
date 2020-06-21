@@ -20,7 +20,6 @@ namespace Blazor.Server.Data
         public Film GetFilm(int id)
         {
             var film = db.Filmovi.Include(f => f.Projekcije).Single(x => x.Id == id);
-            //film.Projekcije = db.Projekcije.Where(x => x.FilmId == film.Id).ToList();
             return film;
         }
         public void AddFilm(Film film)
@@ -41,18 +40,6 @@ namespace Blazor.Server.Data
             db.SaveChanges();
         }
 
-        /*  public async Task<ActionResult<List<User>>> GetAll([FromQuery] PaginationDTO pagination,
-                  [FromQuery] string name)
-          {
-              var queryable = db.Korisnici.AsQueryable();
-              if (!string.IsNullOrEmpty(name))
-              {
-                  queryable = queryable.Where(x => x.FirstName.Contains(name));
-              }
-              await HttpContext.InsertPaginationParameterInResponse(queryable, pagination.QuantityPerPage);
-              return await queryable.Paginate(pagination).ToListAsync();
-
-          }*/
         public IEnumerable<User> GetAll()
         {
             return db.Korisnici.ToList();
