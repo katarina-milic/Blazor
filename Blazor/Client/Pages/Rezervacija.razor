@@ -7,81 +7,97 @@
 <h1 id="naslov2">Rezervacija</h1>
 <p class="alert-info">@poruka</p>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="form-group">
-            <label id="tekst" for="Ime" class="col-form-label-lg">Email</label>
-            <input for="Ime" @bind-value="korisnik.Email" class="form-control" placeholder="Unesite vas email" />
-        </div>
-        <div class="form-group">
-            <label id="tekst" for="Naziv" class="col-form-label-lg">Odabrani film</label>
-            <input for="Naziv"  @bind-value="flm.Naziv" class="form-control" disabled />
-        </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label id="tekst" for="Ime" class="col-form-label-lg">Email</label>
+                <input for="Ime" @bind-value="korisnik.Email" class="form-control" placeholder="Unesite vas email" />
+            </div>
+            <div class="form-group">
+                <label id="tekst" for="Naziv" class="col-form-label-lg">Odabrani film</label>
+                <input for="Naziv" @bind-value="flm.Naziv" class="form-control" disabled />
+            </div>
+ @******************************************************************************************@
+       
+            @*<EditForm>
+                <InputSelect class="form-control" placeholder="Izaberite" @bind-Value="@datum.Datum">
+                    @foreach (var projekcija in listaProjekcija)
+                    {
+                        <option> @projekcija.Datum</option>
+                    }
+                </InputSelect>
+            </EditForm>*@
+<div class="form-group">
+    <label id="tekst" for="Datum" class="col-form-label-lg">Datum i vreme projekcije</label>
+    <GenericList Elements="listaProjekcija">
+        <NullTemplate>
+            <div>
+                <img class="center" height="100" width="100" src="http://www.pzv.org.rs/obuke/images/loading.gif" />
+            </div>
+        </NullTemplate>
+        <EmptyTemplate>
+            <div>
+                <label id="tekst">Nema projekcija</label>
+            </div>
+        </EmptyTemplate>
+        <WithElementsTemplate>
+            <table id="grad" class="table">
+                <thead>
+                    <tr>
 
-        @******************************************************************************************@
+                        <th>Datum</th>
 
-    <div class="form-group">
-        <label id="tekst" for="Datum" class="col-form-label-lg">Datum i vreme projekcije</label>
-        <GenericList Elements="listaProjekcija">
-            <NullTemplate>
-                <div>
-                    <img class="center" height="100" width="100" src="http://www.pzv.org.rs/obuke/images/loading.gif" />
-                </div>
-            </NullTemplate>
-            <EmptyTemplate>
-                <div>
-                    <label id="tekst">Nema projekcija</label>
-                </div>
-            </EmptyTemplate>
-            <WithElementsTemplate>
-                <table id="grad" class="table">
-                    <thead>
-                        <tr>
-
-                            <th>Datum</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var projekcija in listaProjekcija)
-                        {
-                            <tr>
-                                <td>@projekcija.Datum</td>
-
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </WithElementsTemplate>
-        </GenericList>
-
-    </div>
-        <div class="form-group">
-            <label id="tekst" for="Sediste" class="col-form-label-lg">Izaberite sedista</label>
-
-           
-
-        </div>
-        @********************************************************************************************@
-        <div class="form-group">
-            <button type="submit" class=" btn btnSacuvaj" @onclick="CreateRezervacija"> Sacuvaj </button>
-        </div>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var projekcija in listaProjekcija)
+                    {
+                    <tr>
+                        <td>@projekcija.Datum</td>
+                        <td style="color:rgb(76, 255, 0)"><input type="checkbox" @onclick="(async () => await IzabranaProjekcija(projekcija.Id))"/>  Izaberite</td>
 
 
-    </div>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </WithElementsTemplate>
+    </GenericList>
+
 </div>
+<div class="form-group">
+    <label id="tekst" for="Sediste" class="col-form-label-lg">Izaberite slobodna sedišta</label>
+    <select class="col-form-label-lg" @bind="sediste.Id" multiple>
+        @foreach (var sediste in ucitajSedista())
+        {
+            <option>@sediste.Id</option>
+        }
+    </select>
+   
+
+
+</div>
+@********************************************************************************************@
+<div id="center" class="form-group">
+    <button type="submit" class=" btn-lg btnSacuvaj" @onclick="CreateRezervacija"> Sačuvaj </button>
+</div>
+
+
+        </div>
+    </div>
 
 @code {
 
-    User korisnik = new User();
+    public User korisnik = new User();
+    public DatumProjekcije datum = new DatumProjekcije();
+    public Blazor.Shared.Rezervacija rezervacija = new Blazor.Shared.Rezervacija();
+    Sediste sediste = new Sediste();
     string poruka;
-    DatumProjekcije datum = new DatumProjekcije();
-    DatumProjekcije projekcija = new DatumProjekcije();
-
+    DateTime datumPr;
 
     [Parameter]
     public string Id { get; set; }
-    Film flm = new Film();
+    public Film flm = new Film();
 
     public List<Sediste> listaSedista = new List<Sediste>();
     public List<DatumProjekcije> listaProjekcija = new List<DatumProjekcije>();
@@ -101,12 +117,21 @@
         this.StateHasChanged();
     }
 
+    protected async Task IzabranaProjekcija(int id)
+    {
+        foreach(var projekcija in listaProjekcija)
+        {
+            if (projekcija.Id == id)
+                datum = projekcija;
+
+        }
+    }
+
     protected async Task CreateRezervacija()
     {
-        //korisnik = await Http.GetJsonAsync<User>($"api/User/Details/{korisnik.Email}");
-
         var rezervacija = new Blazor.Shared.Rezervacija();
-
+        
+        rezervacija.Datum = datum;
         rezervacija.Film = flm;
         rezervacija.Sedista = new List<Sediste>() { new Sediste() { IsReserved = true } };
         rezervacija.User = await VratiUsera(korisnik.Email);
@@ -125,18 +150,6 @@
         var korisnik = await Http.GetJsonAsync<User>($"api/User/DetailsByEmail/{email}");
 
         return korisnik;
-    }
-
-    public List<DatumProjekcije> ucitajProjekcije()
-    {
-        List<DatumProjekcije> lista = new List<DatumProjekcije>();
-
-        foreach (DatumProjekcije d in flm.Projekcije)
-        {
-            lista.Add(d);
-        }
-        return lista;
-
     }
 
     public List<Sediste> ucitajSedista()

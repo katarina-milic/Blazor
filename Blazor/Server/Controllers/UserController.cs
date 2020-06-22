@@ -13,13 +13,9 @@ namespace Blazor.Server.Controllers
 {
     public class UserController : Controller
         {
-            //private readonly FilmContext context;
+           
             FilmDataAccessLayer objkor = new FilmDataAccessLayer();
 
-     /*   public UserController(FilmContext context)
-            {
-                this.context = context;
-            }*/
 
             [HttpGet]
             [Route("api/User/Index")]
@@ -27,18 +23,6 @@ namespace Blazor.Server.Controllers
         {
             return objkor.GetAll();
         }
-       /* public async Task<ActionResult<List<User>>> GetAllUsers([FromQuery] PaginationDTO pagination,
-                [FromQuery] string name)
-            {
-                var queryable = context.Korisnici.AsQueryable();
-                if (!string.IsNullOrEmpty(name))
-                {
-                    queryable = queryable.Where(x => x.FirstName.Contains(name));
-                }
-                await HttpContext.InsertPaginationParameterInResponse(queryable, pagination.QuantityPerPage);
-                return await queryable.Paginate(pagination).ToListAsync();
-
-             }*/
        
 
 
