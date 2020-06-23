@@ -34,6 +34,13 @@ namespace Blazor.Server.Controllers
             return objrez.GetRezervacija(id);
         }
 
+        [HttpGet]
+        [Route("api/Rezervacija/ByFilm/{id}")]
+        public List<Rezervacija> RezervacijaById(int id)
+        {
+            return objrez.GetRezervacijaZaFilm(id);
+        }
+
         [HttpPut]
         [Route("api/Rezervacija/Edit")]
         public void Edit([FromBody] Rezervacija rez)

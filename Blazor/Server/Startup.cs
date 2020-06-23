@@ -19,7 +19,8 @@ namespace Blazor.Server
 
         public void ConfigureServices(IServiceCollection services)
         {
-           
+
+            services.AddMvc().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddMvc().AddNewtonsoftJson();
             services.AddResponseCompression(opts =>
             {

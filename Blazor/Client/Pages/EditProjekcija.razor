@@ -24,11 +24,15 @@
 
         }
 
+        //void RedirectToIndex()
+        //{
+        //NavigationManager.NavigateTo("/editfilm/{Id}");
+        //}
         protected async Task UpdateDatumProjekcije()
         {
 
             await Http.SendJsonAsync(HttpMethod.Put, "api/DatumProjekcije/Edit", pro);
-            // RedirectToIndex();
+            //RedirectToIndex();
         }
 
     }

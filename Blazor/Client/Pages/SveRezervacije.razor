@@ -29,9 +29,10 @@ else
                 <tr>
 
                     <td>@rez.Id</td>
+                    <td>@rez.User.FullName</td>
+                    <td>@rez.Film.Naziv</td>
+                    <td>@rez.Datum.Datum</td>
                     
-                    
-
                 </tr>
             }
         </tbody>
@@ -40,15 +41,17 @@ else
 }
 
 @code {
-    Rezervacija[] rezervacije;
-    Rezervacija rez = new Rezervacija();
+    Blazor.Shared.Rezervacija[] rezervacije;
+    //List<Blazor.Shared.Rezervacija> rezervacijeLista = new List<Blazor.Shared.Rezervacija>();
+    Blazor.Shared.Rezervacija rez = new Blazor.Shared.Rezervacija();
+
     protected override async Task OnInitializedAsync()
     {
-        rezervacije = await Http.GetJsonAsync<Rezervacija[]>(@"api/Rezervacija/Index");
+        rezervacije = await Http.GetJsonAsync<Blazor.Shared.Rezervacija[]>("/api/Rezervacija/Index");
     }
-   
+
     void RedirectToIndex()
     {
-        NavigationManager.NavigateTo("/deletedpage");
+        NavigationManager.NavigateTo("/");
     }
 }

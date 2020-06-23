@@ -78,6 +78,7 @@ app {
 .table {
     outline: thick ridge rgb(94, 5, 5);
 }
+
 .sidebar {
     background-image: linear-gradient(180deg,rgb(21, 0, 0),rgb(94, 5, 5));
 }
@@ -209,6 +210,29 @@ app {
             background-color: rgb(21, 0, 0);
         }
     }
+    #grad2 {
+        background-color: burlywood;
+        -webkit-animation-name: primer; /* Safari 4.0 - 8.0 */
+        -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+        animation-name: primer;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        /* For browsers that do not support gradients */
+        /*background-image: linear-gradient(to right, rgb(94, 5, 5), rgb(21, 0, 0)); /* Standard syntax (must be last) */
+        text-align: center;
+        color: burlywood;
+    }
+    @keyframes primer {
+        from {
+            background-color: rgb(4, 18, 8);
+        }
+
+        to {
+            background-color: rgb(14, 38, 18);
+        }
+    }
+    
 }
 /*--------------DUGMICI-----------------------*/
 .btnLogin button {

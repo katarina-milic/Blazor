@@ -10,7 +10,6 @@ namespace Blazor.Shared
         public int Id { get; set; }
         public DateTime Datum { get; set; }
         //public int FilmId { get; set; }
-        [NotMapped]
         public Film Film { get; set; }
     }
 }

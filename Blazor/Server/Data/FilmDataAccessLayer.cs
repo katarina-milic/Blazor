@@ -76,7 +76,7 @@ namespace Blazor.Server.Data
         // REZERVACIJE
         public IEnumerable<Rezervacija> GetAllR()
         {
-            return db.Rezervacije.ToList();
+            return db.Rezervacije.Include(item => item.User).Include(item => item.Film).Include(item=> item.Datum).ToList();
 
         }
         public Rezervacija GetRezervacija(int id)
@@ -84,9 +84,16 @@ namespace Blazor.Server.Data
             var rez = db.Rezervacije.Find(id);
             return rez;
         }
+
+        public List<Rezervacija> GetRezervacijaZaFilm(int filmId)
+        {
+            var rezervacije = db.Rezervacije.Where(item => item.Film.Id == filmId).Include(item => item.Datum).Include(item => item.Sedista).ToList();
+            return rezervacije;
+        }
+
         public void AddRezervacija(Rezervacija rez)
         {
-          
+            db.Entry(rez).State = EntityState.Modified;
             db.Rezervacije.Add(rez);
             db.SaveChanges();
         }
