@@ -21,4 +21,10 @@ namespace Blazor.Shared
             return sedista;
         }
     }
+
+    public class RezSedista
+    {
+        public Rezervacija Rezervacija { get; set; }
+        public List<Sediste> Sedista { get; set; }
+    }
 }

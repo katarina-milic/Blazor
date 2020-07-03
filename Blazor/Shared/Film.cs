@@ -22,10 +22,6 @@ namespace Blazor.Shared
         [Required]
         
         public List<DatumProjekcije> Projekcije { get; set; } = new List<DatumProjekcije>();
-
-
-
-
     }
 
 }

@@ -70,10 +70,10 @@
     }
     protected async Task CreateFilm()
     {
-        poruka = "Sacuvano!";
+        poruka = "Sačuvano!";
         await Http.SendJsonAsync(HttpMethod.Post, "/api/Film/Create", flm);
-
-        await Task.Delay(2000);
+       
+        await Task.Delay(4000);
         RedirectToIndex();
     }
     void RedirectToIndex()

@@ -9,5 +9,7 @@ namespace Blazor.Shared
         public int Id { get; set; }
         public bool IsReserved { get; set; }
 
+        public Rezervacija Rezervacija { get; set; }
+
     }
 }

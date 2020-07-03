@@ -13,6 +13,7 @@ namespace Blazor.Server.Data
         public virtual DbSet<User> Korisnici { get; set; }
         public virtual DbSet<Rezervacija> Rezervacije { get; set; }
         public virtual DbSet<DatumProjekcije> Projekcije { get; set; }
+        public virtual DbSet<Sediste> Sediste { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {

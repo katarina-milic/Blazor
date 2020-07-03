@@ -58,13 +58,14 @@
 @code {
     bool collapseNavMenu = true;
     public User user { get; set; } = Sesija.Instance.Korisnik;
-    
+
 
     string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
 
-void ToggleNavMenu()
-{
-    collapseNavMenu = !collapseNavMenu;
-}
+    void ToggleNavMenu()
+    {
+        this.StateHasChanged();
+        collapseNavMenu = !collapseNavMenu;
+    }
 }

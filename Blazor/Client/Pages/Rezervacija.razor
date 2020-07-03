@@ -7,7 +7,10 @@
 <h1 id="naslov2">Rezervacija</h1>
 <p class="alert-info">@poruka</p>
 
-    
+<div>
+    <p id="tekst" style="font-size: small; display: inline-block"> * potrebno je da imate nalog kako biste izvršili rezervaciju</p>
+    <button class="small btnSacuvaj" style="margin-left:10px" @onclick="Registracija"> Registrujte se</button>
+</div>   
 <div class="row">
     <DataAnnotationsValidator />
 
@@ -15,7 +18,7 @@
     <div class="col-md-12">
         <div class="form-group">
             <label id="tekst" for="Ime" class="col-form-label-lg">Email</label>
-            <input type="text" for="Ime" @bind-value="korisnik.Email" class="form-control" placeholder="Unesite vas email" />
+            <input type="text" for="Ime" @bind-value="korisnik.Email" class="form-control" placeholder="Unesite vaš email" />
 
         </div>
         <div class="form-group">
@@ -24,7 +27,7 @@
 
 
         </div>
-        @******************************************************************************************@
+        @*------------------------ LISTA PROJEKCIJA ----------------------*@
 
         <div class="form-group">
             <label id="tekst" for="Datum" class="col-form-label-lg">Datum i vreme projekcije</label>
@@ -105,19 +108,7 @@
                 </div>
             </WithElementsTemplate>
         </GenericList>
-        @*<div class="form-group">
-                <label id="tekst" for="Sediste" class="col-form-label-lg">Izaberite slobodna sedišta</label>
-                <select class="col-form-label-lg" @bind="sediste.Id" multiple>
-                    @foreach (var sediste in ucitajSedista())
-                    {
-                        <option>@sediste.Id</option>
-                    }
-                </select>
-
-
-
-            </div>*@
-        @********************************************************************************************@
+      
         <p class="alert-danger">@error</p>
         <div id="center" class="form-group">
             <button type="submit" class=" btn-lg btnSacuvaj" @onclick="CreateRezervacija"> Sačuvaj </button>
@@ -154,7 +145,7 @@
         {
             flm = await Http.GetJsonAsync<Film>($"api/Film/Details/{Convert.ToInt32(Id)}");
 
-            // await PopuniListuRezervacija();
+            await PopuniListuRezervacija();
             napuniProjekcije();
             popuniSedista();
 
@@ -175,6 +166,20 @@
                     datum = projekcija;
 
             }
+
+            foreach (var rezervacija in rezervacijeLista.Where(item => item.Datum.Datum == datum.Datum))
+            {
+                foreach (var sediste in rezervacija.Sediste)
+                {
+                    if (sediste.IsReserved)
+                    {
+                        var uklonjenoSediste = listaSedista.Where(item => item.Id == sediste.Id).FirstOrDefault();
+                        listaSedista.Remove(uklonjenoSediste);
+                    }
+                }
+            }
+
+            this.StateHasChanged();
         }
 
         protected async Task PopuniListuRezervacija()
@@ -190,25 +195,41 @@
             }
 
         }
-     
+        // ***************KREIRANJE REZERVACIJE
+
         protected async Task CreateRezervacija()
-        { 
+        {
 
-        var rezervacija = new Blazor.Shared.Rezervacija();
+            var rezervacija = new Blazor.Shared.Rezervacija() { Sediste = new List<Sediste>() };
 
-        Console.WriteLine("--------------------------------------------------------------" + listaSedista);
+            var id = Guid.NewGuid();
 
+            rezervacija.Id = id;
             rezervacija.Datum = datum;
             rezervacija.Film = flm;
-            rezervacija.Sedista = vratiIzabranaSedista(listaSedista);
-        rezervacija.User = await VratiUsera(korisnik.Email);
+            rezervacija.User = await VratiUsera(korisnik.Email);
+
+            var sedista = vratiIzabranaSedista(listaSedista);
 
 
-        await Http.SendJsonAsync(HttpMethod.Post, "/api/Rezervacija/Create/", rezervacija);
-        poruka = "Sačuvano!";
-            await Task.Delay(2000);
 
-       
+            foreach (var sediste in sedista)
+            {
+                sediste.Rezervacija = rezervacija;
+            }
+
+            var rezSedista = new RezSedista()
+            {
+                Rezervacija = rezervacija,
+                Sedista = sedista
+            };
+            poruka = "Sačuvano!";
+            await Http.SendJsonAsync(HttpMethod.Post, "/api/Rezervacija/Create/", rezSedista);
+            await Task.Delay(4000);
+
+            RedirectToIndex();
+
+
         }
 
 
@@ -244,64 +265,13 @@
 
         void RedirectToIndex()
         {
-            NavigationManager.NavigateTo("/fetchfilms");
+            NavigationManager.NavigateTo("/repertoar");
+        }
+        void Registracija()
+        {
+             NavigationManager.NavigateTo("/registracija");
+
         }
 
-        // --------------------------NEUSPELE FUNKCIJE ZA FILTRITANJE SEDISTA-----------------------------
 
-        //1. FUNKCIJA
-        //public List<Sediste> Provera(List<Sediste> lista, List<Blazor.Shared.Rezervacija> rezervacijeL)
-        //{
-        //    foreach(var rez in rezervacijeL.Where(item => item.Datum.Datum == datum.Datum))
-        //    {
-        //        foreach (var sediste in rez.Sedista)
-        //        {
-        //            if (sediste.IsReserved)
-        //            {
-        //                listaSedista.Remove(sediste);
-        //            }
-        //        }
-        //    }
-        //    return listaSedista;
-
-        //}
-
-        //2. FUNKCIJA UNUTAR CREATEREZERVACIJA
-         //foreach (var rez in rezervacijeLista)
-        //{
-        //    if (rez.Datum.Datum == rezervacija.Datum.Datum)
-        //    {
-
-        //        foreach (var sediste in rez.Sedista)
-        //        {
-
-        //            foreach (var sed in rezervacija.Sedista)
-        //            {
-
-        //                if (sed.Id == sediste.Id)
-        //                {
-        //                    error = "Sedista su zauseta za datu projekciju";
-        //                    return;
-
-
-        //                }
-        //                else
-        //                {
-        //                    poruka = "Sacuvano!";
-        //                    await Http.SendJsonAsync(HttpMethod.Post, "/api/Rezervacija/Create/", rezervacija);
-
-        //                    await Task.Delay(2000);
-        //                }
-        //            }
-        //        }
-
-        //    } else
-        //    {
-        //        poruka = "Sacuvano!";
-        //        await Http.SendJsonAsync(HttpMethod.Post, "/api/Rezervacija/Create/", rezervacija);
-        //        await Task.Delay(2000);
-        //    }
-        //}
-
-        //RedirectToIndex();
     }

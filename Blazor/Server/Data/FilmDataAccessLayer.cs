@@ -12,6 +12,7 @@ namespace Blazor.Server.Data
     public class FilmDataAccessLayer
     {
         FilmContext db = new FilmContext();
+        // FILMOVI
         public IEnumerable<Film> GetAllFilms()
         {
             return db.Filmovi.ToList();
@@ -39,7 +40,7 @@ namespace Blazor.Server.Data
             db.Filmovi.Remove(film);
             db.SaveChanges();
         }
-
+        //    KORISNICI
         public IEnumerable<User> GetAll()
         {
             return db.Korisnici.ToList();
@@ -87,7 +88,7 @@ namespace Blazor.Server.Data
 
         public List<Rezervacija> GetRezervacijaZaFilm(int filmId)
         {
-            var rezervacije = db.Rezervacije.Where(item => item.Film.Id == filmId).Include(item => item.Datum).Include(item => item.Sedista).ToList();
+            var rezervacije = db.Rezervacije.Where(item => item.Film.Id == filmId).Include(item => item.Datum).Include(item => item.Sediste).ToList();
             return rezervacije;
         }
 
@@ -137,6 +138,17 @@ namespace Blazor.Server.Data
             var pro = db.Projekcije.Find(id);
             db.Projekcije.Remove(pro);
             db.SaveChanges();
+        }
+
+        // SEDISTA
+        public void AddSedista(List<Sediste> sedista)
+        {
+            foreach(var sediste in sedista)
+            {
+                db.Entry(sediste).State = EntityState.Modified;
+                db.Sediste.Add(sediste);
+                db.SaveChanges();
+            }
         }
     }
 }

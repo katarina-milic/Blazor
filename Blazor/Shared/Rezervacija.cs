@@ -8,7 +8,7 @@ namespace Blazor.Shared
     public class Rezervacija
     {
         [Required]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
         public Film Film { get; set; }
         [Required]
@@ -16,7 +16,7 @@ namespace Blazor.Shared
         [Required]
         public DatumProjekcije Datum { get; set; }
         [Required]
-        public List<Sediste> Sedista { get; set; } = new List<Sediste>();
+        public List<Sediste> Sediste { get; set; } = new List<Sediste>();
        
 
 

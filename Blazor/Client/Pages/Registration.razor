@@ -1,4 +1,4 @@
-﻿@page "/registration"
+﻿@page "/registracija"
 @using Blazor.Shared
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
@@ -46,34 +46,48 @@
 </EditForm>
 
     @code {
-        User korisnik = new User();
+        public User korisnik = new User();
+        public User[] korisnici;
 
         string poruka;
         string error;
 
+        protected override async Task OnInitializedAsync()
+        {
+            korisnici = await Http.GetJsonAsync<User[]>("api/User/Index");
+
+        }
+        public bool postojiKorisnik()
+        {
+            foreach (var k in korisnici)
+            {
+                if (k.Username == korisnik.Username | k.Email == korisnik.Email)
+                {
+
+                    return true;
+                }
+
+            }
+            return false;
+        }
+
         protected async Task CreateUser()
 
         {
-            User[] korisnici;
-            korisnici = await Http.GetJsonAsync<User[]>("api/User/Index");
-            
-
-            foreach (User u in korisnici)
-            {  
-                if (u.Username == korisnik.Username | u.Email == korisnik.Email)
-                {
-                    error = "Korisnicko ime ili email je zauzeto.";
-                    poruka = "";
-                    return;
-                }
-                 
+            if (postojiKorisnik())
+            {
+                error = "Korisničko ime ili email je zauzeto.";
+                poruka = "";
+                return;
             }
-             
-                   
-                    poruka = "Registrovali ste se!";
-                    await Http.SendJsonAsync(HttpMethod.Post, "api/User/Create", korisnik);
+            else
+            {
+                poruka = "Registrovali ste se!";
+                await Http.SendJsonAsync(HttpMethod.Post, "/api/User/Create", korisnik);
+                
+                await Task.Delay(2000);
 
-            
+            }
 
         }
         void Error()

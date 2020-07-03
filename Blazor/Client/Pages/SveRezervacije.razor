@@ -15,7 +15,7 @@ else
     <table id="grad" class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                
                 <th>Korisnik</th>
                 <th>Film</th>
                 <th>Datum</th>
@@ -28,7 +28,7 @@ else
             {
                 <tr>
 
-                    <td>@rez.Id</td>
+                    
                     <td>@rez.User.FullName</td>
                     <td>@rez.Film.Naziv</td>
                     <td>@rez.Datum.Datum</td>
@@ -42,7 +42,7 @@ else
 
 @code {
     Blazor.Shared.Rezervacija[] rezervacije;
-    //List<Blazor.Shared.Rezervacija> rezervacijeLista = new List<Blazor.Shared.Rezervacija>();
+   
     Blazor.Shared.Rezervacija rez = new Blazor.Shared.Rezervacija();
 
     protected override async Task OnInitializedAsync()

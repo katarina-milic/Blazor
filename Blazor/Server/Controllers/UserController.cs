@@ -14,18 +14,14 @@ namespace Blazor.Server.Controllers
     public class UserController : Controller
         {
            
-            FilmDataAccessLayer objkor = new FilmDataAccessLayer();
-
-
-            [HttpGet]
-            [Route("api/User/Index")]
+        FilmDataAccessLayer objkor = new FilmDataAccessLayer();
+        [HttpGet]
+        [Route("api/User/Index")]
         public IEnumerable<User> GetUsers()
         {
             return objkor.GetAll();
         }
        
-
-
         [HttpPost]
         [Route("api/User/Create")]
         public void Create([FromBody] User user)

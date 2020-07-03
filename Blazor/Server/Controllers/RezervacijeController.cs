@@ -20,11 +20,12 @@ namespace Blazor.Server.Controllers
 
         [HttpPost]
         [Route("api/Rezervacija/Create")]
-        public void Create([FromBody] Rezervacija rez)
+        public void Create([FromBody] RezSedista rezSedista)
         {
             if (ModelState.IsValid)
             {
-                objrez.AddRezervacija(rez);
+                objrez.AddRezervacija(rezSedista.Rezervacija);
+                objrez.AddSedista(rezSedista.Sedista);
             }
         }
         [HttpGet]
@@ -38,7 +39,8 @@ namespace Blazor.Server.Controllers
         [Route("api/Rezervacija/ByFilm/{id}")]
         public List<Rezervacija> RezervacijaById(int id)
         {
-            return objrez.GetRezervacijaZaFilm(id);
+            var rezervacije = objrez.GetRezervacijaZaFilm(id);
+            return rezervacije;
         }
 
         [HttpPut]
