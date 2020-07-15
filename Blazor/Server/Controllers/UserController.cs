@@ -13,13 +13,18 @@ namespace Blazor.Server.Controllers
 {
     public class UserController : Controller
         {
-           
-        FilmDataAccessLayer objkor = new FilmDataAccessLayer();
+
+        private readonly IUserRepository userRepository;
+        public UserController(IUserRepository userRepository)
+        {
+            this.userRepository = userRepository;
+        }
+        // FilmDataAccessLayer userRepository = new FilmDataAccessLayer();
         [HttpGet]
         [Route("api/User/Index")]
         public IEnumerable<User> GetUsers()
         {
-            return objkor.GetAll();
+            return userRepository.GetAllU();
         }
        
         [HttpPost]
@@ -28,32 +33,32 @@ namespace Blazor.Server.Controllers
         {
             if (ModelState.IsValid)
             {
-                objkor.AddUser(user);
+                userRepository.AddUser(user);
             }
         }
         [HttpGet]
         [Route("api/User/Details/{id}")]
         public User Details(int id)
         {
-            return objkor.GetUser(id);
+            return userRepository.GetUser(id);
         }
         [HttpGet]
         [Route("api/User/DetailsByEmail/{email}")]
         public User DetailsByEmail(string email)
         {
-            return objkor.GetUser(email);
+            return userRepository.GetUser(email);
         }
         [HttpPut]
         [Route("api/User/Edit")]
         public void Edit([FromBody] User user)
         {
-            objkor.UpdateUser(user);
+            userRepository.UpdateUser(user);
         }
         [HttpDelete]
         [Route("api/User/Delete/{id}")]
         public void Delete(int id)
         {
-            objkor.DeleteUser(id);
+            userRepository.DeleteUser(id);
         }
 
 

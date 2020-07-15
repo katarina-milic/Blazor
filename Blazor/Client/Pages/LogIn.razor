@@ -47,7 +47,7 @@
     async Task LoginUser()
     {
         List<User> users;
-        users = await Http.GetJsonAsync<List<User>>(@"api/User/Index");
+        users = await Http.GetJsonAsync<List<User>>("api/User/Index");
         foreach (User u in users)
         {
             if (u.Username == user.Username && u.Password == user.Password)

@@ -10,7 +10,7 @@ namespace Blazor.Server.Controllers
 {
     public class SedistaController : Controller
     {
-        FilmDataAccessLayer objSed = new FilmDataAccessLayer();
+        //FilmDataAccessLayer objSed = new FilmDataAccessLayer();
 
         [HttpPost]
         [Route("api/Sedista/Populate")]
@@ -18,7 +18,7 @@ namespace Blazor.Server.Controllers
         {
             if (ModelState.IsValid)
             {
-                objSed.AddSedista(sedista);
+               // objSed.AddSedista(sedista);
             }
         }
     }

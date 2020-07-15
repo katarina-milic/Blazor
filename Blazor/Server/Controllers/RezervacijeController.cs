@@ -10,12 +10,17 @@ namespace Blazor.Server.Controllers
 {
     public class RezervacijeController : Controller
     {
-        FilmDataAccessLayer objrez = new FilmDataAccessLayer();
+        private readonly IRezervacijaRepository rezRepository;
+        public RezervacijeController(IRezervacijaRepository rezRepository)
+        {
+            this.rezRepository = rezRepository;
+        }
+        // FilmDataAccessLayer objrez = new FilmDataAccessLayer();
         [HttpGet]
         [Route("api/Rezervacija/Index")]
         public IEnumerable<Rezervacija> Index()
         {
-            return objrez.GetAllR();
+            return rezRepository.GetAllR();
         }
 
         [HttpPost]
@@ -24,22 +29,22 @@ namespace Blazor.Server.Controllers
         {
             if (ModelState.IsValid)
             {
-                objrez.AddRezervacija(rezSedista.Rezervacija);
-                objrez.AddSedista(rezSedista.Sedista);
+                rezRepository.AddRezervacija(rezSedista.Rezervacija);
+               // rezRepository.AddSedista(rezSedista.Sedista);
             }
         }
         [HttpGet]
         [Route("api/Rezervacija/Details/{id}")]
-        public Rezervacija Details(int id)
+        public Rezervacija Details(Guid id)
         {
-            return objrez.GetRezervacija(id);
+            return rezRepository.GetRezervacija(id);
         }
 
         [HttpGet]
         [Route("api/Rezervacija/ByFilm/{id}")]
         public List<Rezervacija> RezervacijaById(int id)
         {
-            var rezervacije = objrez.GetRezervacijaZaFilm(id);
+            var rezervacije = rezRepository.GetRezervacijaZaFilm(id);
             return rezervacije;
         }
 
@@ -47,13 +52,13 @@ namespace Blazor.Server.Controllers
         [Route("api/Rezervacija/Edit")]
         public void Edit([FromBody] Rezervacija rez)
         {
-            objrez.UpdateRezervacija(rez);
+            rezRepository.UpdateRezervacija(rez);
         }
         [HttpDelete]
         [Route("api/Rezervacija/Delete/{id}")]
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
-            objrez.DeleteRezervacija(id);
+            rezRepository.DeleteRezervacija(id);
         }
 
     }

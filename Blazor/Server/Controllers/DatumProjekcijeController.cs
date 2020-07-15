@@ -10,12 +10,17 @@ namespace Blazor.Server.Controllers
 {
     public class DatumProjekcijeController : Controller
     {
-        FilmDataAccessLayer objpro = new FilmDataAccessLayer();
+        private readonly IDatumProjekcijeRepository datumRepository;
+        public DatumProjekcijeController(IDatumProjekcijeRepository datumRepository)
+        {
+            this.datumRepository = datumRepository;
+        }
+        //FilmDataAccessLayer datumRepository = new FilmDataAccessLayer();
         [HttpGet]
         [Route("api/DatumProjekcije/Index")]
         public IEnumerable<DatumProjekcije> Index()
         {
-            return objpro.GetAllP();
+            return datumRepository.GetAllP();
         }
 
         [HttpPost]
@@ -24,26 +29,26 @@ namespace Blazor.Server.Controllers
         {
             if (ModelState.IsValid)
             {
-                objpro.AddDatumProjekcije(rez);
+                datumRepository.AddDatumProjekcije(rez);
             }
         }
         [HttpGet]
         [Route("api/DatumProjekcije/Details/{id}")]
         public DatumProjekcije Details(int id)
         {
-            return objpro.GetDatumProjekcije(id);
+            return datumRepository.GetDatumProjekcije(id);
         }
         [HttpPut]
         [Route("api/DatumProjekcije/Edit")]
         public void Edit([FromBody] DatumProjekcije rez)
         {
-            objpro.UpdateDatumProjekcije(rez);
+            datumRepository.UpdateDatumProjekcije(rez);
         }
         [HttpDelete]
         [Route("api/DatumProjekcije/Delete/{id}")]
         public void Delete(int id)
         {
-            objpro.DeleteDatumProjekcije(id);
+            datumRepository.DeleteDatumProjekcije(id);
         }
 
     }

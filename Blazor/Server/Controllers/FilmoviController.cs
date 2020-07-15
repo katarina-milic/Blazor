@@ -9,13 +9,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace Blazor.Server.Controllers
 {
     public class FilmoviController : Controller
+
     {
-        FilmDataAccessLayer objfilm = new FilmDataAccessLayer();
+        private readonly IFilmRepository filmRepository;
+        public FilmoviController( IFilmRepository filmRepository)
+        {
+            this.filmRepository = filmRepository;
+        }
+      //  FilmDataAccessLayer objfilm = new FilmDataAccessLayer();
         [HttpGet]
         [Route("api/Film/Index")]
         public IEnumerable<Film> Index()
         {
-            return objfilm.GetAllFilms();
+            return filmRepository.GetAllFilms();
         }
 
         [HttpPost]
@@ -24,26 +30,26 @@ namespace Blazor.Server.Controllers
         {
             if(ModelState.IsValid)
             {
-                objfilm.AddFilm(film);
+                filmRepository.AddFilm(film);
             }
         }
         [HttpGet]
         [Route("api/Film/Details/{id}")]
         public Film Details (int id)
         {
-            return objfilm.GetFilm(id);
+            return filmRepository.GetFilm(id);
         }
         [HttpPut]
         [Route("api/Film/Edit")]
         public void Edit([FromBody] Film film)
         {
-            objfilm.UpdateFilm(film);
+            filmRepository.UpdateFilm(film);
         }
         [HttpDelete]
         [Route("api/Film/Delete/{id}")]
         public void Delete(int id)
         {
-            objfilm.DeleteFilm(id);
+            filmRepository.DeleteFilm(id);
         }
      
     }

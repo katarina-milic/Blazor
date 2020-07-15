@@ -1,4 +1,5 @@
 
+using Blazor.Server.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -27,6 +28,12 @@ namespace Blazor.Server
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
                     new[] { "application/octet-stream" });
             });
+            services.AddScoped<IFilmRepository, FilmRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IDatumProjekcijeRepository, DatumProjekcijeRepository>();
+            services.AddScoped<IRezervacijaRepository, RezervacijaRepository>();
+            
+
 
         }
 
