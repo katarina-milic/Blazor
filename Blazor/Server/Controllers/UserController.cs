@@ -14,10 +14,10 @@ namespace Blazor.Server.Controllers
     public class UserController : Controller
         {
 
-        private readonly IUserRepository userRepository;
-        public UserController(IUserRepository userRepository)
+        private readonly UserRepository userRepository;
+        public UserController()
         {
-            this.userRepository = userRepository;
+            this.userRepository = new UserRepository();
         }
         // FilmDataAccessLayer userRepository = new FilmDataAccessLayer();
         [HttpGet]

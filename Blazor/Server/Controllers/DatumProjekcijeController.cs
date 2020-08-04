@@ -10,10 +10,10 @@ namespace Blazor.Server.Controllers
 {
     public class DatumProjekcijeController : Controller
     {
-        private readonly IDatumProjekcijeRepository datumRepository;
-        public DatumProjekcijeController(IDatumProjekcijeRepository datumRepository)
+        private readonly DatumProjekcijeRepository datumRepository;
+        public DatumProjekcijeController()
         {
-            this.datumRepository = datumRepository;
+            this.datumRepository = new DatumProjekcijeRepository();
         }
         //FilmDataAccessLayer datumRepository = new FilmDataAccessLayer();
         [HttpGet]

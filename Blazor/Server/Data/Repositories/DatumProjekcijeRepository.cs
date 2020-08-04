@@ -10,10 +10,9 @@ namespace Blazor.Server.Data
     public class DatumProjekcijeRepository : Repository<DatumProjekcije>, IDatumProjekcijeRepository
     {
         private readonly FilmContext datumContext;
-        public DatumProjekcijeRepository(FilmContext datumContext) : base(datumContext)
+        public DatumProjekcijeRepository() : base()
         {
-//this.datumContext = datumContext;
-
+            datumContext = new FilmContext();
         }
 
         public IEnumerable<DatumProjekcije> GetAllP()

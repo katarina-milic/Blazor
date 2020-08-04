@@ -12,10 +12,9 @@ namespace Blazor.Server.Data
     {
         private readonly FilmContext userContext;
 
-        public UserRepository(FilmContext userContext) : base(userContext)
+        public UserRepository() : base()
         {
-           // this.userContext = userContext;
-
+            userContext = new FilmContext();
         }
 
 

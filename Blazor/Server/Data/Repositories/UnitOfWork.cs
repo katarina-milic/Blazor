@@ -12,10 +12,10 @@ namespace Blazor.Server.Data
         public UnitOfWork(FilmContext context)
         {
             _context = context;
-            Filmovi = new FilmRepository(_context);
-            Rezervacije = new RezervacijaRepository(_context);
-            Projekcije = new DatumProjekcijeRepository(_context);
-            Korisnici = new UserRepository(_context);
+            Filmovi = new FilmRepository();
+            Rezervacije = new RezervacijaRepository();
+            Projekcije = new DatumProjekcijeRepository();
+            Korisnici = new UserRepository();
         }
          public IFilmRepository Filmovi { get; private set; }
         public IRezervacijaRepository Rezervacije { get; private set; }

@@ -13,10 +13,9 @@ namespace Blazor.Server.Data
     {
         private readonly FilmContext filmContext;
 
-        public FilmRepository(FilmContext filmContext) : base(filmContext)
+        public FilmRepository() : base()
         {
-          //  this.filmContext = filmContext;
-
+            filmContext = new FilmContext();
         }
         public IEnumerable<Film> GetAllFilms()
         {

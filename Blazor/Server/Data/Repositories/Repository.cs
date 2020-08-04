@@ -9,9 +9,9 @@ namespace Blazor.Server.Data
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected readonly FilmContext Context;
-        public Repository(FilmContext context)
+        public Repository()
         {
-            Context = context;
+            Context = new FilmContext();
         }
         public TEntity Get(int id)
         {

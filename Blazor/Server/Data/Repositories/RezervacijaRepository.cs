@@ -11,14 +11,13 @@ namespace Blazor.Server.Data
     {
         private readonly FilmContext rezContext;
 
-        public RezervacijaRepository(FilmContext rezContext) : base(rezContext)
+        public RezervacijaRepository() : base()
         {
-            
-
+            rezContext = new FilmContext();
         }
         public IEnumerable<Rezervacija> GetAllR()
         {
-            return rezContext.Rezervacije.Include(item => item.User).Include(item => item.Film).Include(item => item.Datum).ToList();
+            return rezContext.Rezervacije.Include(item => item.User).Include(item => item.Film).Include(item => item.Datum).OrderBy(rezervacija => rezervacija.User).ToList(); 
 
         }
         public Rezervacija GetRezervacija(Guid id)

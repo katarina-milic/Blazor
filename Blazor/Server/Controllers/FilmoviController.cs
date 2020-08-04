@@ -11,10 +11,10 @@ namespace Blazor.Server.Controllers
     public class FilmoviController : Controller
 
     {
-        private readonly IFilmRepository filmRepository;
-        public FilmoviController( IFilmRepository filmRepository)
+        private readonly FilmRepository filmRepository;
+        public FilmoviController()
         {
-            this.filmRepository = filmRepository;
+            this.filmRepository = new FilmRepository();
         }
       //  FilmDataAccessLayer objfilm = new FilmDataAccessLayer();
         [HttpGet]

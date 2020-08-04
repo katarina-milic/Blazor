@@ -10,10 +10,10 @@ namespace Blazor.Server.Controllers
 {
     public class RezervacijeController : Controller
     {
-        private readonly IRezervacijaRepository rezRepository;
-        public RezervacijeController(IRezervacijaRepository rezRepository)
+        private readonly RezervacijaRepository rezRepository;
+        public RezervacijeController()
         {
-            this.rezRepository = rezRepository;
+            this.rezRepository = new RezervacijaRepository();
         }
         // FilmDataAccessLayer objrez = new FilmDataAccessLayer();
         [HttpGet]
